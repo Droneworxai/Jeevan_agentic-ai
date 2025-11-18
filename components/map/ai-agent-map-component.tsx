@@ -277,7 +277,7 @@ export default function AIAgentMapComponent() {
             disabled={!kmlLoaded}
           >
             <Car className="h-4 w-4 mr-2" />
-            Add Car
+            Add Bot
           </Button>
 
           {!isNavigating ? (
