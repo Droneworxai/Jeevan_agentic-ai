@@ -46,9 +46,15 @@ export async function POST(request: Request) {
     // Find the inserted user to return
     const user = await db.collection("users").findOne({ _id: result.insertedId });
 
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not found after registration" },
+        { status: 500 }
+      );
+    }
+
     // Return user data (excluding password)
     const { password: _, ...userWithoutPassword } = user;
-
 
     return NextResponse.json(
       {

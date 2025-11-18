@@ -1,11 +1,11 @@
 "use client";
 
 import React, { createElement, Fragment, useEffect, useRef } from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import { autocomplete } from "@algolia/autocomplete-js";
 import type { AutocompleteOptions } from "@algolia/autocomplete-js";
-import { BaseItem } from "@algolia/autocomplete-js/dist/esm/types";
+import type { BaseItem } from "@algolia/autocomplete-core";
 
 import "@algolia/autocomplete-theme-classic";
 
@@ -15,15 +15,20 @@ type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
 
 export function Autocomplete(props: AutocompleteProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<any>(null);
 
   useEffect(() => {
     if (!containerRef.current) {
       return undefined;
     }
 
+    if (!rootRef.current) {
+      rootRef.current = createRoot(containerRef.current);
+    }
+
     const search = autocomplete({
       container: containerRef.current,
-      renderer: { createElement, Fragment, render },
+      renderer: { createElement, Fragment, render: rootRef.current.render },
       ...props,
     });
 

@@ -71,7 +71,7 @@ export default function KMLGeneratorPage() {
         <div className='mb-4'>
             <h2 className='text-2xl font-bold text-gray-900'>KML Generator</h2>
             <p className='text-gray-600 mt-1 text-sm'>
-                Create and export KML files by drawing on the map. Use the search bar to find a location, then use the drawing tools on the map to create features. Once you're done, you can download the KML file from the panel on the right.
+                Create and export KML files by drawing on the map. Use the search bar to find a location, then use the drawing tools on the map to create features. Once you&apos;re done, you can download the KML file from the panel on the right.
             </p>
         </div>
 
@@ -104,7 +104,7 @@ export default function KMLGeneratorPage() {
                         </div>
                       );
                     },
-                    empty({ query, ...props}) {
+                    empty({ query, ...props }: { query: string; [key: string]: any }) {
                         return (
                             <div {...props} className='p-4 bg-white text-center text-gray-500'>
                                 No results for &quot;{query}&quot;.
@@ -124,9 +124,9 @@ export default function KMLGeneratorPage() {
         <div className="mt-4">
             <h3 className="text-lg font-semibold text-gray-900">Search Features:</h3>
             <ul className="list-disc list-inside text-gray-600 text-sm mt-2 space-y-1">
-                <li><strong>Location Search:</strong> Quickly find any location using OpenStreetMap's extensive database.</li>
+                <li><strong>Location Search:</strong> Quickly find any location using OpenStreetMap&apos;s extensive database.</li>
                 <li><strong>Auto-Suggestions:</strong> As you type, you get instant location suggestions to speed up your search.</li>
-                <li><strong>Powered by Algolia:</strong> A smooth and fast search experience is provided by Algolia's Autocomplete library.</li>
+                <li><strong>Powered by Algolia:</strong> A smooth and fast search experience is provided by Algolia&apos;s Autocomplete library.</li>
                 <li><strong>Seamless Map Integration:</strong> Selecting a location will automatically pan and zoom the map to that area.</li>
             </ul>
         </div>
