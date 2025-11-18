@@ -65,7 +65,7 @@ npm start
 ![Screenshot 2](assets/screenshot1.jpg)
 
 Video:
-[![Video of navigation of bot](https://ezgif.com/speed/ezgif-2246b8a7d147901f.gif)](assets/video1.mp4)
+![Video of navigation of bot](assets/video1.mp4)
 
 ---
 
