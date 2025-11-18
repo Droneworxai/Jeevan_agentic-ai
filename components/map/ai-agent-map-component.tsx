@@ -427,7 +427,7 @@ export default function AIAgentMapComponent() {
               <li>Set your Gemini API key</li>
               <li>Load a KML file with waypoints</li>
               <li>Add a car to the map</li>
-              <li>Click "Start Navigation" to begin</li>
+              <li>Click &quot;Start Navigation&quot; to begin</li>
               <li>The car will navigate through waypoints</li>
             </ol>
           </div>

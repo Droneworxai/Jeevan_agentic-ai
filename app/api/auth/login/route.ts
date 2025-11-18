@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-
-const prisma = new PrismaClient();
+import clientPromise from "../../../../lib/mongodb";
 
 export async function POST(request: Request) {
   try {
@@ -15,10 +13,11 @@ export async function POST(request: Request) {
       );
     }
 
+    const client = await clientPromise;
+    const db = client.db();
+
     // Find user by email
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    const user = await db.collection("users").findOne({ email });
 
     if (!user) {
       return NextResponse.json(
