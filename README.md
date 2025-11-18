@@ -24,6 +24,7 @@ A comprehensive Next.js application for KML file generation, visualization, and 
 ## Installation
 
 1. **Clone and install dependencies**:
+
    ```bash
    git clone https://github.com/your-repo/ecoweeder.git
    cd ecoweeder
@@ -31,6 +32,7 @@ A comprehensive Next.js application for KML file generation, visualization, and 
    ```
 
 2. **Set up environment variables and database**:
+
    ```bash
    cp .env.example .env
    # Edit .env with your DATABASE_URL
@@ -56,6 +58,14 @@ A comprehensive Next.js application for KML file generation, visualization, and 
 npm run build
 npm start
 ```
+
+## Images and Videos
+
+![Screenshot 1](assets/screenshot0.jpg)
+![Screenshot 2](assets/screenshot1.jpg)
+
+Video:
+![Video of navigation of bot](assets/video1.mp4)
 
 ---
 
