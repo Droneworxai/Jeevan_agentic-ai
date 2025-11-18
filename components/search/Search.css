@@ -1,0 +1,33 @@
+.aa-Autocomplete {
+  width: 100%;
+}
+
+.aa-InputWrapperPrefix,
+.aa-InputWrapperSuffix {
+  padding: 0 0.5rem;
+}
+
+.aa-Input {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.aa-Panel {
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.aa-Item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.aa-Item[aria-selected="true"] {
+  background-color: #f0f0f0;
+}

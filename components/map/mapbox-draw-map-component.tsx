@@ -6,12 +6,15 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet-draw";
 import { Button } from "@/components/ui/button";
-import { Download, Square, Trash2, Circle } from "lucide-react";
+import { Download, Trash2 } from "lucide-react";
 import { convertGeoJSONToKML } from "@/lib/kml-converter";
 
-export default function MapboxDrawMapComponent() {
+interface MapboxDrawMapComponentProps {
+  mapRef: React.MutableRefObject<L.Map | null>;
+}
+
+export default function MapboxDrawMapComponent({ mapRef }: MapboxDrawMapComponentProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<L.Map | null>(null);
   const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
   const [geoJSON, setGeoJSON] = useState<any>({
     type: "FeatureCollection",
@@ -26,22 +29,18 @@ export default function MapboxDrawMapComponent() {
   useEffect(() => {
     if (!mounted || !mapContainerRef.current || mapRef.current) return;
 
-    // Initialize map
     const map = L.map(mapContainerRef.current).setView([27.7172, 85.324], 13);
     mapRef.current = map;
 
-    // Add OpenStreetMap tile layer
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "© OpenStreetMap contributors",
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map);
 
-    // Initialize FeatureGroup for drawn items
     const drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
     drawnItemsRef.current = drawnItems;
 
-    // Initialize draw control
     const drawControl = new L.Control.Draw({
       edit: {
         featureGroup: drawnItems,
@@ -84,7 +83,6 @@ export default function MapboxDrawMapComponent() {
     });
     map.addControl(drawControl);
 
-    // Event handlers
     map.on(L.Draw.Event.CREATED, (e: any) => {
       const layer = e.layer;
       drawnItems.addLayer(layer);
@@ -105,10 +103,12 @@ export default function MapboxDrawMapComponent() {
     };
 
     return () => {
-      map.remove();
-      mapRef.current = null;
+        if (mapRef.current) {
+            mapRef.current.remove();
+            mapRef.current = null;
+        }
     };
-  }, [mounted]);
+  }, [mounted, mapRef]);
 
   const handleClear = () => {
     if (drawnItemsRef.current) {

@@ -34,6 +34,7 @@ export default function DashboardLayout({
         user={user}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        currentPath={pathname}
       />
       <div className="flex h-[calc(100vh-64px)]">
         <DashboardSidebar isOpen={sidebarOpen} currentPath={pathname} />

@@ -131,3 +131,102 @@ The deployment failed because this project is a Next.js application with server-
 For deploying server-side rendered applications like this one, **Firebase App Hosting** is the recommended solution. It is specifically designed to host modern web apps and backends.
 
 Further information can be found in the [Firebase App Hosting documentation](https://firebase.google.com/docs/app-hosting).
+
+## 4. OpenStreetMap Search Integration
+
+To enhance the application's mapping capabilities, a search feature with auto-suggestions for locations was implemented. This feature leverages the OpenStreetMap Nominatim API for geocoding and Algolia's Autocomplete library for the user interface.
+
+### Implementation Details
+
+1.  **Algolia Autocomplete:** The `@algolia/autocomplete-js` and `@algolia/autocomplete-theme-classic` packages were installed to provide the foundation for the search UI.
+
+2.  **Search Component:** A reusable `Search.tsx` component was created in `components/search/` to encapsulate the autocomplete functionality. A corresponding `Search.css` file was also created for basic styling.
+
+    ```typescript
+    // components/search/Search.tsx
+    "use client";
+
+    import React, { createElement, Fragment, useEffect, useRef } from "react";
+    import { render } from "react-dom";
+    import { autocomplete } from "@algolia/autocomplete-js";
+    import type { AutocompleteOptions } from "@algolia/autocomplete-js";
+    import { BaseItem } from "@algolia/autocomplete-js/dist/esm/types";
+    import "@algolia/autocomplete-theme-classic";
+
+    type AutocompleteProps = Partial<AutocompleteOptions<BaseItem>> & {
+      className?: string;
+    };
+
+    export function Autocomplete(props: AutocompleteProps) {
+      const containerRef = useRef<HTMLDivElement>(null);
+
+      useEffect(() => {
+        if (!containerRef.current) {
+          return undefined;
+        }
+
+        const search = autocomplete({
+          container: containerRef.current,
+          renderer: { createElement, Fragment, render },
+          ...props,
+        });
+
+        return () => {
+          search.destroy();
+        };
+      }, [props]);
+
+      return <div className={props.className} ref={containerRef} />;
+    }
+    ```
+
+3.  **Dashboard Integration:** The `Autocomplete` component was integrated into the main `app/dashboard/layout.tsx`. This makes the search bar available on all pages within the dashboard.
+
+4.  **OpenStreetMap Nominatim API:** The component was configured to fetch location suggestions directly from the Nominatim API as the user types.
+
+    ```javascript
+    // app/dashboard/layout.tsx (simplified)
+
+    // ... imports
+
+    export default function DashboardLayout({ children }) {
+      // ... state and useEffect
+
+      const getNominatimSuggestions = ({ query }) => {
+        // ... fetch logic from https://nominatim.openstreetmap.org/search
+      };
+
+      return (
+        // ... layout JSX
+        <div className="p-4">
+          <Autocomplete
+            placeholder="Search for a location"
+            getSources={({ query }) => [
+              {
+                sourceId: 'places',
+                getItems() {
+                  return getNominatimSuggestions({ query });
+                },
+                templates: {
+                  item({ item }) {
+                    return (
+                      <div className="p-2 border-b border-gray-200">
+                        <span>{item.name}</span>
+                      </div>
+                    );
+                  },
+                },
+                onSelect: ({ item }) => {
+                  alert(`Selected: ${item.name}`);
+                  console.log(item);
+                },
+              },
+            ]}
+          />
+        </div>
+        {children}
+        // ...
+      );
+    }
+    ```
+This implementation provides a responsive and user-friendly location search experience directly within the application's main dashboard.
