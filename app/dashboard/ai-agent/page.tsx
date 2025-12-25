@@ -1,8 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import AIAgentMapComponent from "@/components/map/ai-agent-map-component";
+import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const AIAgentMapComponent = dynamic(
+  () => import("@/components/map/ai-agent-map-component"),
+  { ssr: false }
+);
 
 export default function AIAgentPage() {
   const [mounted, setMounted] = useState(false);

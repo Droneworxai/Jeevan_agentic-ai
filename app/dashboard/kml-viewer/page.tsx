@@ -1,8 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import LeafletKMLViewerComponent from "@/components/map/leaflet-kml-viewer-component";
+import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const LeafletKMLViewerComponent = dynamic(
+  () => import("@/components/map/leaflet-kml-viewer-component"),
+  { ssr: false }
+);
 
 export default function KMLViewerPage() {
   const [mounted, setMounted] = useState(false);

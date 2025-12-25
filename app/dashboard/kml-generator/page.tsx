@@ -1,13 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import MapboxDrawMapComponent from '@/components/map/mapbox-draw-map-component';
+import dynamic from 'next/dynamic';
 import {
   Card,
   CardContent,
 } from '@/components/ui/card';
 import { Autocomplete } from '@/components/search/Search';
-import L from 'leaflet';
+import type L from 'leaflet';
+
+const MapboxDrawMapComponent = dynamic(
+  () => import('@/components/map/mapbox-draw-map-component'),
+  { ssr: false }
+);
 
 export default function KMLGeneratorPage() {
   const [mounted, setMounted] = useState(false);

@@ -28,9 +28,15 @@ A comprehensive Next.js application for KML file generation, visualization, and 
    ```bash
    git clone https://github.com/your-repo/ecoweeder.git
    cd ecoweeder
-   npm install
-   ```
 
+   For Linux
+   Step 1: enter  "chmod +x start.sh" and press enter.
+   Step 2: "./start.sh" and press enter 
+
+   For Windows 
+   Step 1: ".\start.ps1" and press enter.
+   ```
+###  Igonre below steps, Use only if required.
 2. **Set up environment variables and database**:
 
    ```bash
