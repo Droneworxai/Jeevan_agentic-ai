@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ErrorBoundary from "@/components/ui/error-boundary";
 
 const LeafletKMLViewerComponent = dynamic(
   () => import("@/components/map/leaflet-kml-viewer-component"),
@@ -36,7 +37,9 @@ export default function KMLViewerPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0 h-[calc(100%-4rem)]">
-          <LeafletKMLViewerComponent />
+          <ErrorBoundary>
+            <LeafletKMLViewerComponent />
+          </ErrorBoundary>
         </CardContent>
       </Card>
     </div>

@@ -46,6 +46,12 @@ A comprehensive Next.js application for KML file generation, visualization, and 
    npm run prisma:push
    ```
 
+### ⚠️ MongoDB Requirement
+Prisma requires a **MongoDB Replica Set** to function correctly. 
+- If using **MongoDB Atlas**, this is handled automatically.
+- If using **Local MongoDB**, you must convert your standalone instance to a replica set.
+- Alternatively, you can use a connection string like `mongodb://localhost:27017/ecoweeder?directConnection=true` for simple local development, but some features may be limited.
+
 3. **Run the development server**:
    ```bash
    npm run dev

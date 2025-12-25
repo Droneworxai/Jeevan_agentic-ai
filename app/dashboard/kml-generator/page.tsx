@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Autocomplete } from '@/components/search/Search';
 import type L from 'leaflet';
+import ErrorBoundary from '@/components/ui/error-boundary';
 
 const MapboxDrawMapComponent = dynamic(
   () => import('@/components/map/mapbox-draw-map-component'),
@@ -22,33 +23,47 @@ export default function KMLGeneratorPage() {
     setMounted(true);
   }, []);
 
-  const getNominatimSuggestions = ({ query }: { query: string }) => {
+  const getSearchSuggestions = ({ query }: { query: string }) => {
     if (!query) {
       return Promise.resolve([]);
     }
 
-    const url = new URL('https://nominatim.openstreetmap.org/search');
+    const url = new URL('/api/search', window.location.origin);
     url.searchParams.set('q', query);
-    url.searchParams.set('format', 'json');
-    url.searchParams.set('limit', '5');
 
     return fetch(url.toString())
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Search failed');
+        }
+        return response.json();
+      })
       .then((data) => {
+        if (data.error) {
+          console.error('Search API error:', data.error);
+          return [];
+        }
         return data.map((item: any) => ({
           name: item.display_name,
           lat: item.lat,
           lon: item.lon,
           boundingbox: item.boundingbox,
         }));
+      })
+      .catch((err) => {
+        console.error('Search fetch error:', err);
+        return [];
       });
   };
 
   const handleSearchSelect = (item: any) => {
     if (mapRef.current && item.boundingbox) {
         const [minLat, maxLat, minLon, maxLon] = item.boundingbox.map(parseFloat);
-        const bounds = L.latLngBounds([minLat, minLon], [maxLat, maxLon]);
-        mapRef.current.fitBounds(bounds);
+        // Leaflet fitBounds expects [[lat, lon], [lat, lon]]
+        mapRef.current.fitBounds([
+          [minLat, minLon],
+          [maxLat, maxLon]
+        ]);
     } else if (mapRef.current) {
         mapRef.current.panTo([item.lat, item.lon]);
         mapRef.current.setZoom(15);
@@ -83,35 +98,38 @@ export default function KMLGeneratorPage() {
         {/* Map Card */}
         <Card className='flex-grow shadow-lg'>
             <CardContent className='p-0 h-full'>
-              <MapboxDrawMapComponent mapRef={mapRef}/>
+              <ErrorBoundary>
+                <MapboxDrawMapComponent mapRef={mapRef}/>
+              </ErrorBoundary>
             </CardContent>
         </Card>
 
         {/* Search Box */}
         <div className="relative z-10 mt-4">
             <Autocomplete
-              placeholder="Search for a location to begin"
+              placeholder="Search for a location (e.g. United Kingdom)"
               className="[&_.aa-Input]:text-gray-900"
+              openOnFocus={true}
+              autoFocus={true}
               getSources={({ query }) => [
                 {
                   sourceId: 'places',
                   getItems() {
-                    return getNominatimSuggestions({ query });
+                    return getSearchSuggestions({ query });
                   },
                   templates: {
-                    item({ item, ...props }) {
+                    item({ item, components }) {
                       return (
-                        <div 
-                            {...props}
-                            className='p-2 border-b border-gray-200 bg-white cursor-pointer hover:bg-gray-100 text-black'
-                        >
-                        <span>{item.name}</span>
+                        <div className="flex items-center p-2 hover:bg-gray-100 cursor-pointer text-black">
+                          <div className="flex flex-col">
+                            <span className="font-medium">{item.name}</span>
+                          </div>
                         </div>
                       );
                     },
-                    empty({ query, ...props }: { query: string; [key: string]: any }) {
+                    empty({ query }) {
                         return (
-                            <div {...props} className='p-4 bg-white text-center text-gray-500'>
+                            <div className='p-4 bg-white text-center text-gray-500'>
                                 No results for &quot;{query}&quot;.
                             </div>
                         )
