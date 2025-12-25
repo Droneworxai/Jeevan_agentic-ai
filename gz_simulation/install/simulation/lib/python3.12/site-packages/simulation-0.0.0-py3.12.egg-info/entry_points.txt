@@ -1,0 +1,6 @@
+[console_scripts]
+boundary_manager = simulation.boundary_manager:main
+mission_monitor = simulation.mission_monitor:main
+mission_planner = simulation.mission_planner:main
+test_bot = simulation.test_bot:main
+weed_manager = simulation.weed_manager:main

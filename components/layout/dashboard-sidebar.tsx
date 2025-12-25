@@ -31,10 +31,10 @@ const navigationItems = [
     description: "AI-powered navigation",
   },
   {
-    title: "Mission Control",
-    href: "/dashboard/mission-control",
+    title: "EcoWeeder Simulation",
+    href: "/dashboard/simulation",
     icon: Activity,
-    description: "Farm mission planning",
+    description: "Robot simulation and control",
   },
   {
     title: "About Us",

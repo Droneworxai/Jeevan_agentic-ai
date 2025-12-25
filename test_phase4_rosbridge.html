@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROS Bridge WebSocket Test - Phase 4</title>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .status {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .connected { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .disconnected { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #2980b9; }
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        .data-box {
+            background: #ecf0f1;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .data-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .test-section h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+        .topic-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .topic-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Phase 4: ROS Bridge WebSocket Test</h1>
+        
+        <div id="connectionStatus" class="status disconnected">
+            ⏳ Disconnected - Click "Connect to ROS Bridge" to start
+        </div>
+
+        <div class="test-section">
+            <h2>1. Connection Test</h2>
+            <button id="connectBtn" onclick="connectToROS()">Connect to ROS Bridge</button>
+            <button id="disconnectBtn" onclick="disconnectFromROS()" disabled>Disconnect</button>
+        </div>
+
+        <div class="test-section">
+            <h2>2. Topic Discovery</h2>
+            <button onclick="getTopics()" id="topicsBtn" disabled>Get ROS Topics</button>
+            <div id="topicsList" class="data-box" style="display:none;">
+                <strong>Available Topics:</strong>
+                <div id="topicsContent" class="topic-list"></div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>3. Subscribe to /mission_status</h2>
+            <button onclick="subscribeMissionStatus()" id="statusBtn" disabled>Subscribe to Mission Status</button>
+            <button onclick="unsubscribeMissionStatus()" id="unsubStatusBtn" disabled>Unsubscribe</button>
+            <div id="missionStatusData" class="data-box" style="display:none;">
+                <strong>Mission Status Data:</strong>
+                <pre id="statusContent">Waiting for data...</pre>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>4. Subscribe to /robot_pose</h2>
+            <button onclick="subscribeRobotPose()" id="poseBtn" disabled>Subscribe to Robot Pose</button>
+            <button onclick="unsubscribeRobotPose()" id="unsubPoseBtn" disabled>Unsubscribe</button>
+            <div id="robotPoseData" class="data-box" style="display:none;">
+                <strong>Robot Pose Data:</strong>
+                <pre id="poseContent">Waiting for data...</pre>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>5. Call /set_boundary Service</h2>
+            <button onclick="callSetBoundaryService()" id="serviceBtn" disabled>Call /set_boundary</button>
+            <div id="serviceResponse" class="data-box" style="display:none;">
+                <strong>Service Response:</strong>
+                <pre id="serviceContent">No response yet</pre>
+            </div>
+        </div>
+
+        <div class="info" style="margin-top: 30px;">
+            <strong>ℹ️ Instructions:</strong><br>
+            1. Make sure simulation is running: <code>ros2 launch simulation sim.launch.py gz_args:="-s -r"</code><br>
+            2. Rosbridge should be accessible at <code>ws://localhost:9090</code><br>
+            3. Click "Connect to ROS Bridge" to start testing
+        </div>
+    </div>
+
+    <script>
+        let ros;
+        let missionStatusListener;
+        let robotPoseListener;
+
+        function connectToROS() {
+            ros = new ROSLIB.Ros({
+                url: 'ws://localhost:9090'
+            });
+
+            ros.on('connection', function() {
+                document.getElementById('connectionStatus').className = 'status connected';
+                document.getElementById('connectionStatus').innerHTML = '✅ Connected to ROS Bridge at ws://localhost:9090';
+                document.getElementById('connectBtn').disabled = true;
+                document.getElementById('disconnectBtn').disabled = false;
+                document.getElementById('topicsBtn').disabled = false;
+                document.getElementById('statusBtn').disabled = false;
+                document.getElementById('poseBtn').disabled = false;
+                document.getElementById('serviceBtn').disabled = false;
+            });
+
+            ros.on('error', function(error) {
+                document.getElementById('connectionStatus').className = 'status disconnected';
+                document.getElementById('connectionStatus').innerHTML = '❌ Error: ' + error;
+            });
+
+            ros.on('close', function() {
+                document.getElementById('connectionStatus').className = 'status disconnected';
+                document.getElementById('connectionStatus').innerHTML = '⏳ Connection closed';
+                document.getElementById('connectBtn').disabled = false;
+                document.getElementById('disconnectBtn').disabled = true;
+                document.getElementById('topicsBtn').disabled = true;
+                document.getElementById('statusBtn').disabled = true;
+                document.getElementById('poseBtn').disabled = true;
+                document.getElementById('serviceBtn').disabled = true;
+            });
+        }
+
+        function disconnectFromROS() {
+            if (ros) {
+                ros.close();
+            }
+        }
+
+        function getTopics() {
+            ros.getTopics(function(topics) {
+                document.getElementById('topicsList').style.display = 'block';
+                const topicsContent = document.getElementById('topicsContent');
+                const importantTopics = topics.topics.filter(t => 
+                    t.includes('mission') || t.includes('robot') || t.includes('weed') || 
+                    t.includes('farm') || t.includes('cmd_vel') || t.includes('odom')
+                );
+                
+                topicsContent.innerHTML = importantTopics.map(topic => 
+                    `<div class="topic-item">${topic}</div>`
+                ).join('');
+            });
+        }
+
+        function subscribeMissionStatus() {
+            missionStatusListener = new ROSLIB.Topic({
+                ros: ros,
+                name: '/mission_status',
+                messageType: 'std_msgs/String'
+            });
+
+            document.getElementById('missionStatusData').style.display = 'block';
+            document.getElementById('unsubStatusBtn').disabled = false;
+
+            missionStatusListener.subscribe(function(message) {
+                try {
+                    const data = JSON.parse(message.data);
+                    document.getElementById('statusContent').textContent = 
+                        JSON.stringify(data, null, 2);
+                } catch (e) {
+                    document.getElementById('statusContent').textContent = message.data;
+                }
+            });
+        }
+
+        function unsubscribeMissionStatus() {
+            if (missionStatusListener) {
+                missionStatusListener.unsubscribe();
+                document.getElementById('unsubStatusBtn').disabled = true;
+            }
+        }
+
+        function subscribeRobotPose() {
+            robotPoseListener = new ROSLIB.Topic({
+                ros: ros,
+                name: '/robot_pose',
+                messageType: 'geometry_msgs/PoseStamped'
+            });
+
+            document.getElementById('robotPoseData').style.display = 'block';
+            document.getElementById('unsubPoseBtn').disabled = false;
+
+            robotPoseListener.subscribe(function(message) {
+                const poseData = {
+                    position: {
+                        x: message.pose.position.x.toFixed(3),
+                        y: message.pose.position.y.toFixed(3),
+                        z: message.pose.position.z.toFixed(3)
+                    },
+                    orientation: {
+                        x: message.pose.orientation.x.toFixed(3),
+                        y: message.pose.orientation.y.toFixed(3),
+                        z: message.pose.orientation.z.toFixed(3),
+                        w: message.pose.orientation.w.toFixed(3)
+                    }
+                };
+                document.getElementById('poseContent').textContent = 
+                    JSON.stringify(poseData, null, 2);
+            });
+        }
+
+        function unsubscribeRobotPose() {
+            if (robotPoseListener) {
+                robotPoseListener.unsubscribe();
+                document.getElementById('unsubPoseBtn').disabled = true;
+            }
+        }
+
+        function callSetBoundaryService() {
+            const setBoundaryService = new ROSLIB.Service({
+                ros: ros,
+                name: '/set_boundary',
+                serviceType: 'std_srvs/Trigger'
+            });
+
+            const request = new ROSLIB.ServiceRequest({});
+
+            document.getElementById('serviceResponse').style.display = 'block';
+            document.getElementById('serviceContent').textContent = 'Calling service...';
+
+            setBoundaryService.callService(request, function(result) {
+                const response = {
+                    success: result.success,
+                    message: result.message,
+                    timestamp: new Date().toISOString()
+                };
+                document.getElementById('serviceContent').textContent = 
+                    JSON.stringify(response, null, 2);
+            }, function(error) {
+                document.getElementById('serviceContent').textContent = 
+                    'Error: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>

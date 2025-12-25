@@ -1,0 +1,212 @@
+[INFO] [launch]: All log files can be found below /home/jeevan-koiri/.ros/log/2025-12-25-22-36-04-646353-asus-340010
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gazebo-1]: process started with pid [340073]
+[INFO] [parameter_bridge-2]: process started with pid [340074]
+[INFO] [rosbridge_websocket-3]: process started with pid [340076]
+[INFO] [rosapi_node-4]: process started with pid [340077]
+[INFO] [mission_planner-5]: process started with pid [340078]
+[INFO] [boundary_manager-6]: process started with pid [340079]
+[INFO] [weed_manager-7]: process started with pid [340080]
+[INFO] [mission_monitor-8]: process started with pid [340081]
+[gazebo-1] gz sim gui: symbol lookup error: /snap/core20/current/lib/x86_64-linux-gnu/libpthread.so.0: undefined symbol: __libc_pthread_init, version GLIBC_PRIVATE
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelBL_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L31]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelFL_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L59]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelBR_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L87]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelFR_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L115]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="Body_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L143]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[mission_monitor-8] [INFO] [1766681465.779386603] [eco_mission_monitor]: Mission Monitor Node Started (Architecture Compliant)
+[boundary_manager-6] [INFO] [1766681466.024885381] [eco_boundary_manager]: Boundary Manager Node Started (Architecture Compliant)
+[parameter_bridge-2] [INFO] [1766681466.046520877] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/cmd_vel (gz.msgs.Twist) -> /cmd_vel (geometry_msgs/msg/Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.049961070] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.052414648] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.055556860] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/odom (nav_msgs/msg/Odometry) -> /odom (gz.msgs.Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.056849446] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.059100999] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/tf (tf2_msgs/msg/TFMessage) -> /tf (gz.msgs.Pose_V)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.060454111] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.062080515] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/clock (rosgraph_msgs/msg/Clock) -> /clock (gz.msgs.Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.063209353] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model) -> /world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.065559015] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState) -> /world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766681466.068575369] [eco_parameter_bridge]: Passing message from ROS sensor_msgs/msg/JointState to Gazebo gz.msgs.Model (showing msg only once per type)
+[rosbridge_websocket-3] [WARN] [1766681466.153145875] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[mission_planner-5] [INFO] [1766681466.312367023] [eco_mission_planner]: EcoWeeder Mission Planner: Waiting for Mission (Architecture Compliant)...
+[weed_manager-7] [INFO] [1766681467.065194470] [eco_weed_manager]: Weed Manager Node Started (Architecture Compliant)
+[gazebo-1] Escalating to SIGKILL on [Gazebo Sim Server]
+[INFO] [gazebo-1]: process has finished cleanly [pid 340073]
+[rosbridge_websocket-3] [WARN] [1766681471.154713349] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681476.156021858] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681481.157630951] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681486.158944894] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[boundary_manager-6] [INFO] [1766681487.826392599] [eco_boundary_manager]: Selected Farm: Sandfields Farm Ltd
+[rosbridge_websocket-3] [WARN] [1766681491.160651726] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681496.162395965] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681501.164169616] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681506.165670030] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681511.167540558] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681516.168607997] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681521.169836324] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681526.171091172] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681531.172613804] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681536.174419102] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[boundary_manager-6] [INFO] [1766681537.111590043] [eco_boundary_manager]: Published new boundary with 7 points
+[mission_planner-5] [INFO] [1766681537.111856716] [eco_mission_planner]: Received Mission Config: Sandfields Farm Ltd
+[mission_planner-5] [INFO] [1766681537.112463084] [eco_mission_planner]: Planner set to: boustrophedon
+[mission_planner-5] [INFO] [1766681537.112873935] [eco_mission_planner]: Mission configuration stored. Waiting for EXECUTE command.
+[boundary_manager-6] [INFO] [1766681537.144700704] [eco_boundary_manager]: Boundary set via service
+[rosbridge_websocket-3] [WARN] [1766681541.175722305] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[mission_planner-5] [INFO] [1766681541.232717707] [eco_mission_planner]: Mission loaded via service
+[mission_planner-5] [INFO] [1766681544.619516612] [eco_mission_planner]: 🚀 EXECUTE command received. Starting mission!
+[rosbridge_websocket-3] [WARN] [1766681546.177130482] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681551.178566826] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681556.180025835] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681561.181243302] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681566.182386231] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681571.183369289] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681576.184426050] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681581.186417962] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681586.188254337] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [WARN] [1766681591.189551416] [rosbridge_websocket]: Unable to start server: [Errno 98] Address already in use Retrying in 5.0s.
+[rosbridge_websocket-3] [INFO] [1766681596.191884379] [rosbridge_websocket]: Rosbridge WebSocket server started on port 9090
+[rosbridge_websocket-3] [INFO] [1766681601.083787950] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766681601.084496470] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766681601.085748690] [rosbridge_websocket]: Client connected. 1 clients total.
+[rosbridge_websocket-3] [INFO] [1766681601.462254798] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766681601.462607846] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766681601.464068011] [rosbridge_websocket]: Client connected. 2 clients total.
+[mission_planner-5] [INFO] [1766681603.635416553] [eco_mission_planner]: Mission STOP requested.
+[parameter_bridge-2] [INFO] [1766681603.636040979] [eco_parameter_bridge]: Passing message from ROS geometry_msgs/msg/Twist to Gazebo gz.msgs.Twist (showing msg only once per type)
+[rosbridge_websocket-3] [INFO] [1766682197.301877256] [rosbridge_websocket]: Client disconnected. 1 clients total.
+[parameter_bridge-2] [INFO] [1766682225.487118054] [rclcpp]: signal_handler(signum=2)
+[rosbridge_websocket-3] Exception in callback <function main.<locals>.spin_ros at 0x788f3a38d440>
+[rosbridge_websocket-3] Traceback (most recent call last):
+[rosbridge_websocket-3]   File "/usr/lib/python3/dist-packages/tornado/ioloop.py", line 937, in _run
+[rosbridge_websocket-3]     val = self.callback()
+[rosbridge_websocket-3]           ^^^^^^^^^^^^^^^
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/rosbridge_server/rosbridge_websocket", line 244, in spin_ros
+[rosbridge_websocket-3]     executor.spin_once(timeout_sec=0.01)
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[rosbridge_websocket-3]     self._spin_once_impl(timeout_sec)
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[rosbridge_websocket-3]     handler, entity, node = self.wait_for_ready_callbacks(
+[rosbridge_websocket-3]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[rosbridge_websocket-3]     return next(self._cb_iter)
+[rosbridge_websocket-3]            ^^^^^^^^^^^^^^^^^^^
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[rosbridge_websocket-3]     raise ExternalShutdownException()
+[rosbridge_websocket-3] rclpy.executors.ExternalShutdownException
+[rosbridge_websocket-3] registered capabilities (classes):
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.advertise.Advertise'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.publish.Publish'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.subscribe.Subscribe'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.defragmentation.Defragment'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.advertise_service.AdvertiseService'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.call_service.CallService'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.service_response.ServiceResponse'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.unadvertise_service.UnadvertiseService'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.advertise_action.AdvertiseAction'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.action_feedback.ActionFeedback'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.action_result.ActionResult'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.send_action_goal.SendActionGoal'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.unadvertise_action.UnadvertiseAction'>
+[mission_planner-5] Traceback (most recent call last):
+[mission_planner-5]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_planner", line 33, in <module>
+[mission_planner-5]     sys.exit(load_entry_point('simulation', 'console_scripts', 'mission_planner')())
+[mission_planner-5]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_planner-5]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/build/simulation/simulation/mission_planner.py", line 259, in main
+[mission_planner-5]     rclpy.spin(planner)
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[mission_planner-5]     executor.spin_once()
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[mission_planner-5]     self._spin_once_impl(timeout_sec)
+[mission_monitor-8] Traceback (most recent call last):
+[mission_monitor-8]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_monitor", line 33, in <module>
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[mission_planner-5]     handler, entity, node = self.wait_for_ready_callbacks(
+[mission_planner-5]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[mission_monitor-8]     sys.exit(load_entry_point('simulation', 'console_scripts', 'mission_monitor')())
+[mission_monitor-8]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_monitor-8]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/build/simulation/simulation/mission_monitor.py", line 118, in main
+[mission_monitor-8]     rclpy.spin(node)
+[mission_monitor-8]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[mission_monitor-8]     executor.spin_once()
+[mission_monitor-8]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[mission_monitor-8]     self._spin_once_impl(timeout_sec)
+[mission_monitor-8]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[mission_planner-5]     return next(self._cb_iter)
+[mission_planner-5]            ^^^^^^^^^^^^^^^^^^^
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[mission_planner-5]     raise ExternalShutdownException()
+[mission_planner-5] rclpy.executors.ExternalShutdownException
+[mission_monitor-8]     handler, entity, node = self.wait_for_ready_callbacks(
+[mission_monitor-8]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_monitor-8]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[mission_monitor-8]     return next(self._cb_iter)
+[mission_monitor-8]            ^^^^^^^^^^^^^^^^^^^
+[mission_monitor-8]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[mission_monitor-8]     raise ExternalShutdownException()
+[mission_monitor-8] rclpy.executors.ExternalShutdownException
+[boundary_manager-6] Traceback (most recent call last):
+[boundary_manager-6]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/boundary_manager", line 33, in <module>
+[boundary_manager-6]     sys.exit(load_entry_point('simulation', 'console_scripts', 'boundary_manager')())
+[boundary_manager-6]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[boundary_manager-6]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/build/simulation/simulation/boundary_manager.py", line 67, in main
+[boundary_manager-6]     rclpy.spin(node)
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[boundary_manager-6]     executor.spin_once()
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[boundary_manager-6]     self._spin_once_impl(timeout_sec)
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[boundary_manager-6]     handler, entity, node = self.wait_for_ready_callbacks(
+[boundary_manager-6]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[boundary_manager-6]     return next(self._cb_iter)
+[boundary_manager-6]            ^^^^^^^^^^^^^^^^^^^
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[boundary_manager-6]     raise ExternalShutdownException()
+[boundary_manager-6] rclpy.executors.ExternalShutdownException
+[weed_manager-7] Traceback (most recent call last):
+[weed_manager-7]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/weed_manager", line 33, in <module>
+[weed_manager-7]     sys.exit(load_entry_point('simulation', 'console_scripts', 'weed_manager')())
+[weed_manager-7]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[weed_manager-7]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/build/simulation/simulation/weed_manager.py", line 66, in main
+[weed_manager-7]     rclpy.spin(node)
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[weed_manager-7]     executor.spin_once()
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[weed_manager-7]     self._spin_once_impl(timeout_sec)
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[weed_manager-7]     handler, entity, node = self.wait_for_ready_callbacks(
+[weed_manager-7]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[weed_manager-7]     return next(self._cb_iter)
+[weed_manager-7]            ^^^^^^^^^^^^^^^^^^^
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[weed_manager-7]     raise ExternalShutdownException()
+[weed_manager-7] rclpy.executors.ExternalShutdownException
+[INFO] [parameter_bridge-2]: process has finished cleanly [pid 340074]
+[ERROR] [boundary_manager-6]: process has died [pid 340079, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/boundary_manager --ros-args -r __node:=eco_boundary_manager'].
+[ERROR] [weed_manager-7]: process has died [pid 340080, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/weed_manager --ros-args -r __node:=eco_weed_manager'].
+[ERROR] [mission_planner-5]: process has died [pid 340078, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_planner --ros-args -r __node:=eco_mission_planner'].
+[ERROR] [mission_monitor-8]: process has died [pid 340081, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_monitor --ros-args -r __node:=eco_mission_monitor'].
+[ERROR] [rosbridge_websocket-3]: process has died [pid 340076, exit code -9, cmd '/opt/ros/jazzy/lib/rosbridge_server/rosbridge_websocket --ros-args -r __node:=rosbridge_websocket -r __ns:=/ --params-file /tmp/launch_params_f8k5jrh0 --params-file /tmp/launch_params_pkznqq_x --params-file /tmp/launch_params_1vj92teu --params-file /tmp/launch_params_1wpdv3qu --params-file /tmp/launch_params_4xrft2jv --params-file /tmp/launch_params_up5vajo3 --params-file /tmp/launch_params_03m55sd7 --params-file /tmp/launch_params_v38la6s5 --params-file /tmp/launch_params_3khpwnyu --params-file /tmp/launch_params_athueufh --params-file /tmp/launch_params_u2_iot8a --params-file /tmp/launch_params_m3pq0onb --params-file /tmp/launch_params_e6zsxrkr --params-file /tmp/launch_params_atms965n --params-file /tmp/launch_params_t1b4jmz5 --params-file /tmp/launch_params_vxu25tmo'].
+[rosapi_node-4] Traceback (most recent call last):
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/rosapi/rosapi_node", line 600, in <module>
+[rosapi_node-4]     main()
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/rosapi/rosapi_node", line 592, in main
+[rosapi_node-4]     rclpy.spin(node)
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[rosapi_node-4]     executor.spin_once()
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[rosapi_node-4]     self._spin_once_impl(timeout_sec)
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[rosapi_node-4]     handler, entity, node = self.wait_for_ready_callbacks(
+[rosapi_node-4]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[rosapi_node-4]     return next(self._cb_iter)
+[rosapi_node-4]            ^^^^^^^^^^^^^^^^^^^
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 679, in _wait_for_ready_callbacks
+[rosapi_node-4]     wait_set = _rclpy.WaitSet(
+[rosapi_node-4]                ^^^^^^^^^^^^^^^
+[rosapi_node-4] rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130
+[ERROR] [rosapi_node-4]: process has died [pid 340077, exit code 1, cmd '/opt/ros/jazzy/lib/rosapi/rosapi_node --ros-args -r __node:=rosapi -r __ns:=/ --params-file /tmp/launch_params_ysd3g77g --params-file /tmp/launch_params_tnhcx_c3 --params-file /tmp/launch_params_ufm4y8em --params-file /tmp/launch_params_myx_t43o'].

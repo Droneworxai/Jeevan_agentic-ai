@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Play, Square, Save, Map as MapIcon, Bot, Activity } from "lucide-react";
+import { Play, Square, Save, Map as MapIcon, Bot, Activity, RotateCw } from "lucide-react";
 import RosClient from "@/lib/ros/ros-client";
-import ROSLIB from "roslib";
+import * as ROSLIB from "roslib";
 
 const MissionControlMap = dynamic(
   () => import("@/components/map/mission-control-map"),
@@ -23,6 +23,7 @@ export default function MissionControlPage() {
   const [robotPosition, setRobotPosition] = useState<[number, number] | null>(null);
   const [isMissionRunning, setIsMissionRunning] = useState(false);
   const [rosStatus, setRosStatus] = useState<"connected" | "disconnected" | "error">("disconnected");
+  const [missionStatus, setMissionStatus] = useState<any>(null);
 
   useEffect(() => {
     const ros = RosClient.getInstance().connect();
@@ -39,15 +40,29 @@ export default function MissionControlPage() {
     });
 
     odomTopic.subscribe((message: any) => {
-      // Convert ROS coordinates to Lat/Lon (simplified for demo)
-      // In a real scenario, you'd use a transform or GPS coordinates
-      const lat = 27.7172 + (message.pose.pose.position.y / 111111);
-      const lon = 85.324 + (message.pose.pose.position.x / (111111 * Math.cos(27.7172 * Math.PI / 180)));
+      const lat = 52.175 + (message.pose.pose.position.y / 111111);
+      const lon = -1.755 + (message.pose.pose.position.x / (111111 * Math.cos(52.175 * Math.PI / 180)));
       setRobotPosition([lat, lon]);
+    });
+
+    // Subscribe to mission status
+    const statusTopic = new ROSLIB.Topic({
+      ros: ros,
+      name: "/mission_status",
+      messageType: "std_msgs/String"
+    });
+
+    statusTopic.subscribe((message: any) => {
+      try {
+        setMissionStatus(JSON.parse(message.data));
+      } catch (e) {
+        console.error("Error parsing mission status", e);
+      }
     });
 
     return () => {
       odomTopic.unsubscribe();
+      statusTopic.unsubscribe();
       RosClient.getInstance().disconnect();
     };
   }, []);
@@ -77,7 +92,7 @@ export default function MissionControlPage() {
       farmName
     });
 
-    missionTopic.publish(new ROSLIB.Message({ data: missionData }));
+    missionTopic.publish({ data: missionData });
     setIsMissionRunning(true);
   };
 
@@ -89,9 +104,25 @@ export default function MissionControlPage() {
         name: "/mission/stop",
         messageType: "std_msgs/Empty"
       });
-      stopTopic.publish(new ROSLIB.Message({}));
+      stopTopic.publish({});
     }
     setIsMissionRunning(false);
+  };
+
+  const handleRotate = (speed: number) => {
+    const ros = RosClient.getInstance().getRos();
+    if (ros) {
+      const cmdVelTopic = new ROSLIB.Topic({
+        ros: ros,
+        name: "/cmd_vel",
+        messageType: "geometry_msgs/Twist"
+      });
+      const twist = {
+        linear: { x: 0, y: 0, z: 0 },
+        angular: { x: 0, y: 0, z: speed }
+      };
+      cmdVelTopic.publish(twist);
+    }
   };
 
   const handleSaveFarm = async () => {
@@ -204,6 +235,33 @@ export default function MissionControlPage() {
                   {robotPosition ? `${robotPosition[0].toFixed(4)}, ${robotPosition[1].toFixed(4)}` : "Unknown"}
                 </span>
               </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Weeds Removed:</span>
+                <span className="font-medium text-green-600">
+                  {missionStatus?.weeds_removed || 0}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <RotateCw className="w-5 h-5" /> Manual Control
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1" onClick={() => handleRotate(0.5)}>
+                  Rotate L
+                </Button>
+                <Button variant="outline" className="flex-1" onClick={() => handleRotate(-0.5)}>
+                  Rotate R
+                </Button>
+              </div>
+              <Button variant="destructive" className="w-full" onClick={() => handleRotate(0)}>
+                Stop Rotation
+              </Button>
             </CardContent>
           </Card>
         </div>

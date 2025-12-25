@@ -1,0 +1,61 @@
+[INFO] [launch]: All log files can be found below /home/jeevan-koiri/.ros/log/2025-12-25-22-04-14-198955-asus-311771
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gazebo-1]: process started with pid [311813]
+[INFO] [parameter_bridge-2]: process started with pid [311814]
+[INFO] [rosbridge_websocket-3]: process started with pid [311816]
+[INFO] [rosapi_node-4]: process started with pid [311817]
+[INFO] [mission_planner-5]: process started with pid [311818]
+[INFO] [boundary_manager-6]: process started with pid [311819]
+[INFO] [weed_manager-7]: process started with pid [311820]
+[INFO] [mission_monitor-8]: process started with pid [311821]
+[parameter_bridge-2] [INFO] [1766679554.518258421] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/cmd_vel (gz.msgs.Twist) -> /cmd_vel (geometry_msgs/msg/Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.519785595] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.520407970] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.521595572] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/odom (nav_msgs/msg/Odometry) -> /odom (gz.msgs.Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.522198932] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.523617575] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/tf (tf2_msgs/msg/TFMessage) -> /tf (gz.msgs.Pose_V)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.524077331] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.524726363] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/clock (rosgraph_msgs/msg/Clock) -> /clock (gz.msgs.Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.525108081] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model) -> /world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766679554.526298624] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState) -> /world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model)] (Lazy 0)
+[gazebo-1] gz sim gui: symbol lookup error: /snap/core20/current/lib/x86_64-linux-gnu/libpthread.so.0: undefined symbol: __libc_pthread_init, version GLIBC_PRIVATE
+[mission_monitor-8] [INFO] [1766679554.787726283] [eco_mission_monitor]: Mission Monitor Node Started (Architecture Compliant)
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelBL_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L31]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[mission_planner-5] [INFO] [1766679554.804243021] [eco_mission_planner]: EcoWeeder Mission Planner: Waiting for Mission (Architecture Compliant)...
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelFL_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L59]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelBR_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L87]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelFR_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L115]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="Body_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L143]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[weed_manager-7] [INFO] [1766679555.154227348] [eco_weed_manager]: Weed Manager Node Started (Architecture Compliant)
+[boundary_manager-6] [INFO] [1766679555.193256911] [eco_boundary_manager]: Boundary Manager Node Started (Architecture Compliant)
+[rosbridge_websocket-3] [INFO] [1766679555.209393974] [rosbridge_websocket]: Rosbridge WebSocket server started on port 9090
+[rosbridge_websocket-3] [INFO] [1766679560.005124331] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766679560.005399585] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766679560.006026851] [rosbridge_websocket]: Client connected. 1 clients total.
+[gazebo-1] Escalating to SIGKILL on [Gazebo Sim Server]
+[INFO] [gazebo-1]: process has finished cleanly [pid 311813]
+[rosbridge_websocket-3] [INFO] [1766679615.142083522] [rosbridge_websocket]: Client disconnected. 0 clients total.
+[rosbridge_websocket-3] [INFO] [1766679615.884255026] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766679615.884737131] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766679615.885550989] [rosbridge_websocket]: Client connected. 1 clients total.
+[rosbridge_websocket-3] [INFO] [1766679615.943070439] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766679615.944766506] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766679615.946890049] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766679615.948183459] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766679615.949353923] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766679615.950931660] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Unsubscribed from /weed_status
+[boundary_manager-6] [INFO] [1766679615.953262712] [eco_boundary_manager]: Selected Farm: Sandfields Farm Ltd
+[rosbridge_websocket-3] [INFO] [1766679615.954931158] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766679615.957291672] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766679615.959424457] [rosbridge_websocket]: [Client 0dc1ae42-f3cb-4528-ad9b-163daa3a9dd1] Subscribed to /weed_status
+[mission_planner-5] [INFO] [1766679621.939517983] [eco_mission_planner]: Received Mission Config: Sandfields Farm Ltd
+[boundary_manager-6] [INFO] [1766679621.939526884] [eco_boundary_manager]: Published new boundary with 7 points
+[mission_planner-5] [INFO] [1766679621.939738200] [eco_mission_planner]: Planner set to: boustrophedon
+[mission_planner-5] [INFO] [1766679621.939926214] [eco_mission_planner]: Mission configuration stored. Waiting for EXECUTE command.
+[boundary_manager-6] [INFO] [1766679621.951808046] [eco_boundary_manager]: Boundary set via service
+[mission_planner-5] [INFO] [1766679624.720221982] [eco_mission_planner]: Mission loaded via service
+[mission_planner-5] [INFO] [1766679627.384587592] [eco_mission_planner]: 🚀 EXECUTE command received. Starting mission!
+[ERROR] [parameter_bridge-2]: process has died [pid 311814, exit code -9, cmd '/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge /cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist /odom@nav_msgs/msg/Odometry@gz.msgs.Odometry /tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V /clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock /world/farm_world/model/ecoweeder/joint_state@sensor_msgs/msg/JointState@gz.msgs.Model --ros-args -r __node:=eco_parameter_bridge'].
+[ERROR] [mission_monitor-8]: process has died [pid 311821, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_monitor --ros-args -r __node:=eco_mission_monitor'].
+[ERROR] [mission_planner-5]: process has died [pid 311818, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_planner --ros-args -r __node:=eco_mission_planner'].
+[ERROR] [rosbridge_websocket-3]: process has died [pid 311816, exit code -9, cmd '/opt/ros/jazzy/lib/rosbridge_server/rosbridge_websocket --ros-args -r __node:=rosbridge_websocket -r __ns:=/ --params-file /tmp/launch_params_tz7r38d3 --params-file /tmp/launch_params_z_n9rexo --params-file /tmp/launch_params_qerhuclr --params-file /tmp/launch_params_vgwdlpix --params-file /tmp/launch_params_o16lu9vy --params-file /tmp/launch_params_yh7uaxhy --params-file /tmp/launch_params_1nr43bx7 --params-file /tmp/launch_params_7rw81aw3 --params-file /tmp/launch_params_v84nshir --params-file /tmp/launch_params_yg2lnlks --params-file /tmp/launch_params_1c63l0pe --params-file /tmp/launch_params_x5myd_tj --params-file /tmp/launch_params_2qad4nw4 --params-file /tmp/launch_params_wglvdsob --params-file /tmp/launch_params_u7bm9svy --params-file /tmp/launch_params_7thxs_1t'].

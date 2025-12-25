@@ -62,17 +62,20 @@ export default function HomePage() {
             intuitive map tools.
           </p>
           <div className="flex justify-center space-x-4">
+            <Link href="/simulation">
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-lg px-8 shadow-lg shadow-blue-200"
+              >
+                Launch Simulation
+              </Button>
+            </Link>
             <Link href="/auth/register">
               <Button
                 size="lg"
                 className="bg-green-600 hover:bg-green-700 text-lg px-8"
               >
                 Start Free Trial
-              </Button>
-            </Link>
-            <Link href="/auth/login">
-              <Button size="lg" variant="outline" className="text-lg px-8">
-                Learn More
               </Button>
             </Link>
           </div>

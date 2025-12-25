@@ -1,0 +1,59 @@
+running egg_info
+creating build/simulation/simulation.egg-info
+writing build/simulation/simulation.egg-info/PKG-INFO
+writing dependency_links to build/simulation/simulation.egg-info/dependency_links.txt
+writing entry points to build/simulation/simulation.egg-info/entry_points.txt
+writing requirements to build/simulation/simulation.egg-info/requires.txt
+writing top-level names to build/simulation/simulation.egg-info/top_level.txt
+writing manifest file 'build/simulation/simulation.egg-info/SOURCES.txt'
+reading manifest file 'build/simulation/simulation.egg-info/SOURCES.txt'
+writing manifest file 'build/simulation/simulation.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation
+copying simulation/test_bot.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation
+copying simulation/boundary_manager.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation
+copying simulation/__init__.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation
+copying simulation/mission_monitor.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation
+copying simulation/weed_manager.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation
+copying simulation/mission_planner.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation
+running install
+running install_lib
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation
+copying /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation/test_bot.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation
+copying /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation/boundary_manager.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation
+copying /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation/__init__.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation
+copying /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation/mission_monitor.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation
+copying /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation/weed_manager.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation
+copying /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/build/lib/simulation/mission_planner.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation
+byte-compiling /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation/test_bot.py to test_bot.cpython-312.pyc
+byte-compiling /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation/boundary_manager.py to boundary_manager.cpython-312.pyc
+byte-compiling /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation/mission_monitor.py to mission_monitor.cpython-312.pyc
+byte-compiling /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation/weed_manager.py to weed_manager.cpython-312.pyc
+byte-compiling /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation/mission_planner.py to mission_planner.cpython-312.pyc
+running install_data
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/ament_index
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/ament_index/resource_index
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/ament_index/resource_index/packages
+copying resource/simulation -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/ament_index/resource_index/packages
+copying package.xml -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/launch
+copying launch/sim.launch.py -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/launch
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/worlds
+copying worlds/farm.sdf -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/worlds
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/robot_description
+creating /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/robot_description/urdf
+copying robot_description/urdf/explorer_r2.urdf -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/robot_description/urdf
+copying robot_description/urdf/bot.urdf -> /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/share/simulation/robot_description/urdf
+running install_egg_info
+Copying build/simulation/simulation.egg-info to /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/python3.12/site-packages/simulation-0.0.0-py3.12.egg-info
+running install_scripts
+Installing boundary_manager script to /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/simulation
+Installing mission_monitor script to /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/simulation
+Installing mission_planner script to /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/simulation
+Installing test_bot script to /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/simulation
+Installing weed_manager script to /home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/install/simulation/lib/simulation
+writing list of installed files to '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/gz_simulation/build/simulation/install.log'

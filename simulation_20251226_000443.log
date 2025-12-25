@@ -1,0 +1,226 @@
+[INFO] [launch]: All log files can be found below /home/jeevan-koiri/.ros/log/2025-12-25-22-56-27-762335-asus-349887
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gazebo-1]: process started with pid [349930]
+[INFO] [parameter_bridge-2]: process started with pid [349931]
+[INFO] [rosbridge_websocket-3]: process started with pid [349933]
+[INFO] [rosapi_node-4]: process started with pid [349934]
+[INFO] [mission_planner-5]: process started with pid [349935]
+[INFO] [boundary_manager-6]: process started with pid [349936]
+[INFO] [weed_manager-7]: process started with pid [349937]
+[INFO] [mission_monitor-8]: process started with pid [349938]
+[parameter_bridge-2] [INFO] [1766682688.512161726] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/cmd_vel (gz.msgs.Twist) -> /cmd_vel (geometry_msgs/msg/Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.517271722] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.519058346] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.522661842] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/odom (nav_msgs/msg/Odometry) -> /odom (gz.msgs.Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.524361767] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.527768097] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/tf (tf2_msgs/msg/TFMessage) -> /tf (gz.msgs.Pose_V)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.529238994] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.531598732] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/clock (rosgraph_msgs/msg/Clock) -> /clock (gz.msgs.Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.532325267] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model) -> /world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766682688.534826033] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState) -> /world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model)] (Lazy 0)
+[gazebo-1] gz sim gui: symbol lookup error: /snap/core20/current/lib/x86_64-linux-gnu/libpthread.so.0: undefined symbol: __libc_pthread_init, version GLIBC_PRIVATE
+[weed_manager-7] [INFO] [1766682689.191757615] [eco_weed_manager]: Weed Manager Node Started (Architecture Compliant)
+[mission_planner-5] [INFO] [1766682689.199500004] [eco_mission_planner]: EcoWeeder Mission Planner: Waiting for Mission (Architecture Compliant)...
+[mission_monitor-8] [INFO] [1766682689.249854513] [eco_mission_monitor]: Mission Monitor Node Started (Architecture Compliant)
+[boundary_manager-6] [INFO] [1766682689.290641524] [eco_boundary_manager]: Boundary Manager Node Started (Architecture Compliant)
+[rosbridge_websocket-3] [INFO] [1766682689.449591834] [rosbridge_websocket]: Rosbridge WebSocket server started on port 9090
+[gazebo-1] Escalating to SIGKILL on [Gazebo Sim Server]
+[rosbridge_websocket-3] [INFO] [1766682694.328200009] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766682694.328740805] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766682694.330510029] [rosbridge_websocket]: Client connected. 1 clients total.
+[INFO] [gazebo-1]: process has finished cleanly [pid 349930]
+[parameter_bridge-2] [INFO] [1766682730.031312383] [eco_parameter_bridge]: Passing message from ROS sensor_msgs/msg/JointState to Gazebo gz.msgs.Model (showing msg only once per type)
+[rosbridge_websocket-3] [INFO] [1766683104.768716712] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766683104.769294648] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766683104.770772097] [rosbridge_websocket]: Client connected. 2 clients total.
+[rosbridge_websocket-3] [INFO] [1766683104.932296720] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683104.939668721] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766683104.949005903] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766683104.952304551] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683104.954533153] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766683104.958879887] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /weed_status
+[boundary_manager-6] [INFO] [1766683104.963291817] [eco_boundary_manager]: Selected Farm: Sandfields Farm Ltd
+[rosbridge_websocket-3] [INFO] [1766683104.965969784] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683104.971756083] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766683104.976947603] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766683128.656411390] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683128.661629066] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766683128.667870039] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /weed_status
+[rosbridge_websocket-3] [INFO] [1766683153.528866170] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683153.534881135] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766683153.540026796] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766683153.542730953] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683153.546089394] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766683153.548971345] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Unsubscribed from /weed_status
+[rosbridge_websocket-3] [INFO] [1766683153.555564803] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683153.561260707] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766683153.566424810] [rosbridge_websocket]: [Client 3ed8cb24-4c27-4610-8d46-f7a6842f90ec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766683225.832472030] [rosbridge_websocket]: Client disconnected. 1 clients total.
+[rosbridge_websocket-3] [INFO] [1766683227.019282529] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766683227.020434236] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766683227.022402509] [rosbridge_websocket]: Client connected. 2 clients total.
+[rosbridge_websocket-3] [INFO] [1766683227.054478240] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683227.065610254] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766683227.071415689] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766683227.075268017] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683227.079193128] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766683227.082925841] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Unsubscribed from /weed_status
+[boundary_manager-6] [INFO] [1766683227.085583695] [eco_boundary_manager]: Selected Farm: Sandfields Farm Ltd
+[rosbridge_websocket-3] [INFO] [1766683227.089778433] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766683227.098694481] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766683227.107020343] [rosbridge_websocket]: [Client a729a8eb-7f0c-4324-bc77-af699edf1dfa] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766684114.692330331] [rosbridge_websocket]: Client disconnected. 1 clients total.
+[rosbridge_websocket-3] [INFO] [1766684116.726392044] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766684116.727149552] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766684116.730301978] [rosbridge_websocket]: Client connected. 2 clients total.
+[rosbridge_websocket-3] [INFO] [1766684116.793053854] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766684116.798682778] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766684116.806123763] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766684116.810416540] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766684116.814625987] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766684116.822180838] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /weed_status
+[boundary_manager-6] [INFO] [1766684116.824049118] [eco_boundary_manager]: Selected Farm: Sandfields Farm Ltd
+[rosbridge_websocket-3] [INFO] [1766684116.830272594] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766684116.835968990] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766684116.841288560] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766684130.259194307] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766684130.261956578] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766684130.264321020] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /weed_status
+[rosbridge_websocket-3] [INFO] [1766686762.321882431] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766686762.325077232] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766686762.328794581] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766686762.330564771] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766686762.332247382] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766686762.333950781] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Unsubscribed from /weed_status
+[rosbridge_websocket-3] [INFO] [1766686762.338275411] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766686762.341512996] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766686762.344782660] [rosbridge_websocket]: [Client fc36b6cc-5d82-4ab9-9aeb-0d1a5d271dec] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766686775.344731380] [rosbridge_websocket]: Client disconnected. 1 clients total.
+[rosbridge_websocket-3] [INFO] [1766686776.503074726] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766686776.503890151] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766686776.504878289] [rosbridge_websocket]: Client connected. 2 clients total.
+[rosbridge_websocket-3] [INFO] [1766686776.543681400] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766686776.547631858] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766686776.552803664] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766686776.555101698] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766686776.558002212] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766686776.560102715] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Unsubscribed from /weed_status
+[boundary_manager-6] [INFO] [1766686776.561530603] [eco_boundary_manager]: Selected Farm: Sandfields Farm Ltd
+[rosbridge_websocket-3] [INFO] [1766686776.565114689] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766686776.567720575] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766686776.570919404] [rosbridge_websocket]: [Client 1a1b947e-3626-4dd8-93b0-3633a2a120b0] Subscribed to /weed_status
+[parameter_bridge-2] [INFO] [1766686778.310324986] [rclcpp]: signal_handler(signum=2)
+[rosbridge_websocket-3] Exception in callback <function main.<locals>.spin_ros at 0x7485500a5440>
+[rosbridge_websocket-3] Traceback (most recent call last):
+[rosbridge_websocket-3]   File "/usr/lib/python3/dist-packages/tornado/ioloop.py", line 937, in _run
+[rosbridge_websocket-3]     val = self.callback()
+[rosbridge_websocket-3]           ^^^^^^^^^^^^^^^
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/rosbridge_server/rosbridge_websocket", line 244, in spin_ros
+[rosbridge_websocket-3]     executor.spin_once(timeout_sec=0.01)
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[rosbridge_websocket-3]     self._spin_once_impl(timeout_sec)
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[rosbridge_websocket-3]     handler, entity, node = self.wait_for_ready_callbacks(
+[rosbridge_websocket-3]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[rosbridge_websocket-3]     return next(self._cb_iter)
+[rosbridge_websocket-3]            ^^^^^^^^^^^^^^^^^^^
+[rosbridge_websocket-3]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[rosbridge_websocket-3]     raise ExternalShutdownException()
+[rosbridge_websocket-3] rclpy.executors.ExternalShutdownException
+[rosbridge_websocket-3] registered capabilities (classes):
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.advertise.Advertise'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.publish.Publish'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.subscribe.Subscribe'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.defragmentation.Defragment'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.advertise_service.AdvertiseService'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.call_service.CallService'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.service_response.ServiceResponse'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.unadvertise_service.UnadvertiseService'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.advertise_action.AdvertiseAction'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.action_feedback.ActionFeedback'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.action_result.ActionResult'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.send_action_goal.SendActionGoal'>
+[rosbridge_websocket-3]  - <class 'rosbridge_library.capabilities.unadvertise_action.UnadvertiseAction'>
+[weed_manager-7] Traceback (most recent call last):
+[weed_manager-7]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/weed_manager", line 33, in <module>
+[weed_manager-7]     sys.exit(load_entry_point('simulation', 'console_scripts', 'weed_manager')())
+[weed_manager-7]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[weed_manager-7]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/build/simulation/simulation/weed_manager.py", line 66, in main
+[weed_manager-7]     rclpy.spin(node)
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[weed_manager-7]     executor.spin_once()
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[weed_manager-7]     self._spin_once_impl(timeout_sec)
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[weed_manager-7]     handler, entity, node = self.wait_for_ready_callbacks(
+[weed_manager-7]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[weed_manager-7]     return next(self._cb_iter)
+[weed_manager-7]            ^^^^^^^^^^^^^^^^^^^
+[weed_manager-7]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[weed_manager-7]     raise ExternalShutdownException()
+[weed_manager-7] rclpy.executors.ExternalShutdownException
+[boundary_manager-6] Traceback (most recent call last):
+[boundary_manager-6]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/boundary_manager", line 33, in <module>
+[boundary_manager-6]     sys.exit(load_entry_point('simulation', 'console_scripts', 'boundary_manager')())
+[boundary_manager-6]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[boundary_manager-6]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/build/simulation/simulation/boundary_manager.py", line 67, in main
+[boundary_manager-6]     rclpy.spin(node)
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[boundary_manager-6]     executor.spin_once()
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[boundary_manager-6]     self._spin_once_impl(timeout_sec)
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[boundary_manager-6]     handler, entity, node = self.wait_for_ready_callbacks(
+[boundary_manager-6]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[boundary_manager-6]     return next(self._cb_iter)
+[boundary_manager-6]            ^^^^^^^^^^^^^^^^^^^
+[boundary_manager-6]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[boundary_manager-6]     raise ExternalShutdownException()
+[boundary_manager-6] rclpy.executors.ExternalShutdownException
+[mission_planner-5] Traceback (most recent call last):
+[mission_planner-5]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_planner", line 33, in <module>
+[mission_planner-5]     sys.exit(load_entry_point('simulation', 'console_scripts', 'mission_planner')())
+[mission_planner-5]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_planner-5]   File "/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/build/simulation/simulation/mission_planner.py", line 259, in main
+[mission_planner-5]     rclpy.spin(planner)
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[mission_planner-5]     executor.spin_once()
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[mission_planner-5]     self._spin_once_impl(timeout_sec)
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[mission_planner-5]     handler, entity, node = self.wait_for_ready_callbacks(
+[mission_planner-5]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[mission_planner-5]     return next(self._cb_iter)
+[mission_planner-5]            ^^^^^^^^^^^^^^^^^^^
+[mission_planner-5]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[mission_planner-5]     raise ExternalShutdownException()
+[mission_planner-5] rclpy.executors.ExternalShutdownException
+[ERROR] [parameter_bridge-2]: process has died [pid 349931, exit code -9, cmd '/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge /cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist /odom@nav_msgs/msg/Odometry@gz.msgs.Odometry /tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V /clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock /world/farm_world/model/ecoweeder/joint_state@sensor_msgs/msg/JointState@gz.msgs.Model --ros-args -r __node:=eco_parameter_bridge'].
+[ERROR] [weed_manager-7]: process has died [pid 349937, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/weed_manager --ros-args -r __node:=eco_weed_manager'].
+[ERROR] [mission_planner-5]: process has died [pid 349935, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_planner --ros-args -r __node:=eco_mission_planner'].
+[ERROR] [boundary_manager-6]: process has died [pid 349936, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/boundary_manager --ros-args -r __node:=eco_boundary_manager'].
+[ERROR] [mission_monitor-8]: process has died [pid 349938, exit code -9, cmd '/home/jeevan-koiri/Desktop/drive/dev-work/droneworx/Jeevan_agentic-ai/install/simulation/lib/simulation/mission_monitor --ros-args -r __node:=eco_mission_monitor'].
+[ERROR] [rosbridge_websocket-3]: process has died [pid 349933, exit code -9, cmd '/opt/ros/jazzy/lib/rosbridge_server/rosbridge_websocket --ros-args -r __node:=rosbridge_websocket -r __ns:=/ --params-file /tmp/launch_params_h7ilg8ro --params-file /tmp/launch_params__1i35fwz --params-file /tmp/launch_params_cin_ldvc --params-file /tmp/launch_params_6svdifak --params-file /tmp/launch_params_1n30jtnb --params-file /tmp/launch_params_sq7iv62w --params-file /tmp/launch_params_tenhfdbk --params-file /tmp/launch_params_s52nw0_6 --params-file /tmp/launch_params_ma4_sldc --params-file /tmp/launch_params_z28e9b0t --params-file /tmp/launch_params_qmuxc_8m --params-file /tmp/launch_params_yh42tn4q --params-file /tmp/launch_params_1bno3ble --params-file /tmp/launch_params_jm30awfk --params-file /tmp/launch_params__sp8oyix --params-file /tmp/launch_params_nwlpgfx7'].
+[rosapi_node-4] Traceback (most recent call last):
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/rosapi/rosapi_node", line 600, in <module>
+[rosapi_node-4]     main()
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/rosapi/rosapi_node", line 592, in main
+[rosapi_node-4]     rclpy.spin(node)
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 247, in spin
+[rosapi_node-4]     executor.spin_once()
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 845, in spin_once
+[rosapi_node-4]     self._spin_once_impl(timeout_sec)
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 829, in _spin_once_impl
+[rosapi_node-4]     handler, entity, node = self.wait_for_ready_callbacks(
+[rosapi_node-4]                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 799, in wait_for_ready_callbacks
+[rosapi_node-4]     return next(self._cb_iter)
+[rosapi_node-4]            ^^^^^^^^^^^^^^^^^^^
+[rosapi_node-4]   File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 707, in _wait_for_ready_callbacks
+[rosapi_node-4]     raise ExternalShutdownException()
+[rosapi_node-4] rclpy.executors.ExternalShutdownException
+[ERROR] [rosapi_node-4]: process has died [pid 349934, exit code 1, cmd '/opt/ros/jazzy/lib/rosapi/rosapi_node --ros-args -r __node:=rosapi -r __ns:=/ --params-file /tmp/launch_params_d94m6wt5 --params-file /tmp/launch_params_9zdty1r4 --params-file /tmp/launch_params_s0hwh129 --params-file /tmp/launch_params_tpx8mprh'].

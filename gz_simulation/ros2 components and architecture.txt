@@ -1,0 +1,177 @@
+For a project like this, where you want a dashboard to choose a farm, define boundaries, select a mission planner, and execute autonomous weeding in Gazebo + ROS 2, we need a well-structured ROS 2 architecture. Here’s a clear breakdown of the nodes, topics, services, actions, and messages you’ll need:
+
+1. Nodes
+Node	Purpose
+dashboard_node	UI for choosing farm, setting boundaries, selecting mission planner. Could be a web or Qt dashboard publishing commands.
+boundary_manager_node	Stores and manages farm boundaries; publishes boundary info to robot/navigation nodes.
+mission_planner_node	Loads a Boustrophedon path or other mission plans; outputs waypoints or trajectory commands.
+robot_controller_node	Subscribes to mission planner waypoints and sends velocity/pose commands to Gazebo robot via ros2_control.
+gazebo_bridge_node	Handles the bridge between Gazebo Sim (gz-jetty) and ROS 2 via ros-jazzy-ros-gz; publishes robot pose, sensors.
+weed_manager_node	Detects weed patches in simulation, updates their status when “cut” by the robot.
+mission_monitor_node	Tracks mission progress, completion, and logs updates. Publishes status to dashboard.
+map_server_node	Provides farm map (static or from GPS coordinates) to planner and dashboard.
+2. Topics
+Topic	Message Type	Publisher	Subscriber	Purpose
+/selected_farm	std_msgs/String	dashboard_node	boundary_manager_node, map_server_node	Current farm selection
+/farm_boundary	geometry_msgs/Polygon	boundary_manager_node	mission_planner_node, dashboard_node	Boundary coordinates for mission
+/mission_waypoints	nav_msgs/Path	mission_planner_node	robot_controller_node	Waypoints to follow
+/robot_pose	geometry_msgs/PoseStamped	gazebo_bridge_node	robot_controller_node, mission_monitor_node	Robot’s current position in world frame
+/weed_status	custom_msgs/WeedStatusArray	weed_manager_node	dashboard_node, mission_monitor_node	Status of weeds (cut/present)
+/mission_status	std_msgs/String	mission_monitor_node	dashboard_node	Mission progress (in_progress, completed, failed)
+/cmd_vel	geometry_msgs/Twist	robot_controller_node	gazebo_bridge_node	Velocity commands to robot (if using diff drive)
+3. Services
+Service	Service Type	Provider	Purpose
+/load_mission	custom_srvs/LoadMission.srv	mission_planner_node	Load a mission plan into the robot
+/set_boundary	custom_srvs/SetBoundary.srv	boundary_manager_node	Set farm boundaries from dashboard
+/reset_farm	std_srvs/Empty	weed_manager_node	Reset weeds to initial state
+/get_robot_pose	gazebo_msgs/GetModelState	gazebo_bridge_node	Query robot’s current pose (optional if using topic)
+4. Actions
+Action	Action Type	Server	Client	Purpose
+/execute_mission	custom_actions/ExecuteMission.action	robot_controller_node	dashboard_node / mission_monitor_node	Start mission execution, provide feedback, allow preemption/cancel
+/weed_patch_action	custom_actions/WeedPatch.action	weed_manager_node	robot_controller_node	Notify robot when a weed is cut and update patch status
+
+Note: Actions are preferred for long-running, feedback-oriented tasks like following a mission path or cutting weeds.
+
+5. Messages
+
+Standard ROS 2 messages:
+
+geometry_msgs/PoseStamped, nav_msgs/Path, geometry_msgs/Twist, std_msgs/String
+
+Custom messages:
+
+WeedStatus.msg
+
+string id
+bool is_cut
+geometry_msgs/Pose pose
+
+
+WeedStatusArray.msg
+
+WeedStatus[] weeds
+
+
+Custom service for mission loading:
+
+string mission_file
+---
+bool success
+string message
+
+
+Custom action for mission execution:
+
+# Goal
+nav_msgs/Path path
+---
+# Result
+bool success
+string message
+---
+# Feedback
+geometry_msgs/PoseStamped current_pose
+float32 percent_complete
+
+6. Workflow Overview
+
+Dashboard UI
+
+Select farm → publish /selected_farm
+
+Set boundaries → call /set_boundary
+
+Choose mission planner → call /load_mission
+
+Mission Planner
+
+Generates /mission_waypoints based on Boustrophedon path inside farm boundary.
+
+Robot Controller
+
+Subscribes to /mission_waypoints
+
+Publishes /cmd_vel to move robot in Gazebo
+
+Sends feedback to /execute_mission action
+
+Gazebo Bridge
+
+Publishes /robot_pose
+
+Updates robot model in Gazebo
+
+Weed Manager
+
+Checks robot collisions with grass patches
+
+Updates /weed_status and removes patch from simulation
+
+Mission Monitor
+
+Aggregates robot pose, weed status, mission progress
+
+Publishes /mission_status for dashboard
+
+This architecture ensures real-time updates, mission preemption, and feedback to the dashboard, while keeping ROS 2 nodes modular and reusable.
+
+
+
+                              ┌─────────────────┐
+                              │  Dashboard UI   │
+                              │  (Web (NextJS))       │
+                              └─────────────────┘
+                                  │  |   ^
+            set boundary (srv)   │  |   | mission status
+             load mission (srv)  │  |   | /mission_status (std_msgs/String)
+                                  ▼  |   │
+                        ┌─────────────────────────┐
+                        │  Boundary Manager Node  │
+                        └─────────────────────────┘
+                                  │
+                                  │ /farm_boundary (geometry_msgs/Polygon)
+                                  ▼
+                        ┌─────────────────────────┐
+                        │  Mission Planner Node   │
+                        └─────────────────────────┘
+                                  │
+                                  │ /mission_waypoints (nav_msgs/Path)
+                                  │ /execute_mission (Action)
+                                  ▼
+                        ┌─────────────────────────┐
+                        │  Robot Controller Node  │
+                        └─────────────────────────┘
+                                  │
+                                  │ /cmd_vel (geometry_msgs/Twist)
+                                  ▼
+                        ┌─────────────────────────┐
+                        │    Gazebo Bridge Node   │
+                        └─────────────────────────┘
+                                  │
+                                  │ /robot_pose (geometry_msgs/PoseStamped)
+                                  │ /get_model_state (srv)
+                                  ▼
+                       ┌───────────────────────────┐
+                       │  Gazebo Simulation World  │
+                       │  - EXPLORER_R2 Robot (Ecoweeder bot)      │
+                       │  - Grass/Weeds (patches) │
+                       │  - Field Environment      │
+                       └───────────────────────────┘
+                                  │
+                                  │ Collision eventsagain edit the plan to include proper nodes, services, agents, actions, and message 
+                                  ▼
+                        ┌─────────────────────────┐
+                        │  Weed Manager Node      │
+                        └─────────────────────────┘
+                                  │
+                       /weed_status (WeedStatusArray)
+                                  │
+                                  ▼
+                        ┌─────────────────────────┐
+                        │  Mission Monitor Node   │
+                        └─────────────────────────┘
+                                  │
+                      /mission_status (std_msgs/String)
+                                  │
+                                  ▼
+                              Dashboard UI on /simulation endpoint

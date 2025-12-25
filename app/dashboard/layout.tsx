@@ -36,7 +36,7 @@ export default function DashboardLayout({
         setSidebarOpen={setSidebarOpen}
         currentPath={pathname}
       />
-      <div className="flex h-[calc(100vh-64px)]">
+      <div className="flex h-[calc(100vh-64px)] mt-16">
         <DashboardSidebar isOpen={sidebarOpen} currentPath={pathname} />
         <main
           className={`flex-1 overflow-auto transition-all duration-300 ${

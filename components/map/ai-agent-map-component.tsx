@@ -39,7 +39,7 @@ export default function AIAgentMapComponent() {
     if (!mounted || !mapContainerRef.current || mapRef.current) return;
 
     // Layer 1: Initialize map with OpenStreetMap
-    const map = L.map(mapContainerRef.current).setView([27.7172, 85.324], 13);
+    const map = L.map(mapContainerRef.current).setView([52.175, -1.755], 16);
     mapRef.current = map;
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

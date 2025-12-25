@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, MapPin, Bot, ArrowRight } from "lucide-react";
+import { Download, MapPin, Bot, ArrowRight, Activity } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -38,6 +38,14 @@ export default function DashboardPage() {
       href: "/dashboard/ai-agent",
       color: "bg-purple-100 text-purple-600",
       buttonColor: "bg-purple-600 hover:bg-purple-700",
+    },
+    {
+      title: "EcoWeeder Simulation",
+      description: "Real-time robot simulation with ROS 2 and Gazebo integration",
+      icon: Activity,
+      href: "/dashboard/simulation",
+      color: "bg-orange-100 text-orange-600",
+      buttonColor: "bg-orange-600 hover:bg-orange-700",
     },
   ];
 

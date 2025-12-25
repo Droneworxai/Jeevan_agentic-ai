@@ -42,12 +42,34 @@ A comprehensive Next.js application for KML file generation, visualization, and 
 
 To run the full stack including the robot simulation:
 
-1. **Start the App & Bridge**: Run `./start.sh` (Linux) or `.\start.ps1` (Windows). When prompted, type `y` to start the ROS Bridge and Mission Planner.
-2. **Start Gazebo**: In a new terminal, run:
+1. **Build the ROS 2 Package**:
    ```bash
-   ./simulation/start_sim.sh
+   colcon build --symlink-install
+   source install/setup.bash
    ```
-3. **Access Dashboard**: Go to `http://localhost:3000/dashboard/mission-control` to plan missions for the bot.
+
+2. **Start the Simulation & ROS Bridge**:
+   ```bash
+   ros2 launch simulation sim.launch.py gz_args:="-s -r"
+   ```
+   *Note: Headless mode (`-s -r`) is recommended to avoid library conflicts.*
+
+3. **Start the Next.js App**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Access Dashboard**: Go to `http://localhost:3000/simulation` to control the robot.
+
+## 🛠️ Development & Testing
+
+- **Implementation Plan**: See [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for project status.
+- **Troubleshooting**: See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues.
+- **Test Scripts**:
+  - `test_phase3.sh`: Node communication test.
+  - `test_phase4.sh`: Rosbridge connection test.
+  - `test_phase6.sh`: Full mission workflow test.
+  - `test_phase7_stability.sh`: Long-running stability test.
 
 ### ⚠️ Prerequisites for Simulation
 - ROS 2 (Humble/Foxy)

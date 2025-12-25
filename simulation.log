@@ -1,0 +1,64 @@
+[INFO] [launch]: All log files can be found below /home/jeevan-koiri/.ros/log/2025-12-26-00-10-31-653362-asus-429268
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gazebo-1]: process started with pid [429305]
+[INFO] [parameter_bridge-2]: process started with pid [429306]
+[INFO] [rosbridge_websocket-3]: process started with pid [429307]
+[INFO] [rosapi_node-4]: process started with pid [429309]
+[INFO] [mission_planner-5]: process started with pid [429310]
+[INFO] [boundary_manager-6]: process started with pid [429311]
+[INFO] [weed_manager-7]: process started with pid [429312]
+[INFO] [mission_monitor-8]: process started with pid [429313]
+[parameter_bridge-2] [INFO] [1766687131.997056165] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/cmd_vel (gz.msgs.Twist) -> /cmd_vel (geometry_msgs/msg/Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.000569104] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/cmd_vel (geometry_msgs/msg/Twist) -> /cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.001737085] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.003911940] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/odom (nav_msgs/msg/Odometry) -> /odom (gz.msgs.Odometry)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.005174989] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.008208195] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/tf (tf2_msgs/msg/TFMessage) -> /tf (gz.msgs.Pose_V)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.009310402] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.010865209] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/clock (rosgraph_msgs/msg/Clock) -> /clock (gz.msgs.Clock)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.011607888] [eco_parameter_bridge]: Creating GZ->ROS Bridge: [/world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model) -> /world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState)] (Lazy 0)
+[parameter_bridge-2] [INFO] [1766687132.012927718] [eco_parameter_bridge]: Creating ROS->GZ Bridge: [/world/farm_world/model/ecoweeder/joint_state (sensor_msgs/msg/JointState) -> /world/farm_world/model/ecoweeder/joint_state (gz.msgs.Model)] (Lazy 0)
+[gazebo-1] gz sim gui: symbol lookup error: /snap/core20/current/lib/x86_64-linux-gnu/libpthread.so.0: undefined symbol: __libc_pthread_init, version GLIBC_PRIVATE
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelBL_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L31]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelFL_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L59]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelBR_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L87]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[mission_monitor-8] [INFO] [1766687132.306512507] [eco_mission_monitor]: Mission Monitor Node Started (Architecture Compliant)
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="WheelFR_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L115]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[gazebo-1] [1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="r2"]/link[@name="base_link"]/visual[@name="Body_visual"]/material/pbr/metal/metal_map:/home/jeevan-koiri/.gz/fuel/fuel.gazebosim.org/jeevankoiri/models/explorer_r2_visuals_only/1/model.sdf:L143]: XML Element[metal_map], child of element[metal], not defined in SDF. Copying[metal_map] as children of [metal].
+[mission_planner-5] [INFO] [1766687132.365849192] [eco_mission_planner]: EcoWeeder Mission Planner: Waiting for Mission (Architecture Compliant)...
+[boundary_manager-6] [INFO] [1766687132.397309710] [eco_boundary_manager]: Boundary Manager Node Started (Architecture Compliant)
+[rosbridge_websocket-3] [INFO] [1766687132.427658468] [rosbridge_websocket]: Rosbridge WebSocket server started on port 9090
+[rosbridge_websocket-3] [INFO] [1766687132.532395057] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766687132.532702411] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766687132.533436049] [rosbridge_websocket]: Client connected. 1 clients total.
+[weed_manager-7] [INFO] [1766687132.903199618] [eco_weed_manager]: Weed Manager Node Started (Architecture Compliant)
+[rosbridge_websocket-3] [INFO] [1766687135.455958061] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766687135.456211535] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766687135.456719352] [rosbridge_websocket]: Client connected. 2 clients total.
+[rosbridge_websocket-3] [INFO] [1766687135.468127621] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766687135.468373958] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766687135.469074159] [rosbridge_websocket]: Client connected. 3 clients total.
+[rosbridge_websocket-3] [INFO] [1766687136.971765274] [rosbridge_websocket]: Client disconnected. 2 clients total.
+[gazebo-1] Escalating to SIGKILL on [Gazebo Sim Server]
+[INFO] [gazebo-1]: process has finished cleanly [pid 429305]
+[rosbridge_websocket-3] [INFO] [1766687157.315475401] [rosbridge_websocket]: Calling services in new thread
+[rosbridge_websocket-3] [INFO] [1766687157.316473805] [rosbridge_websocket]: Sending action goals in new thread
+[rosbridge_websocket-3] [INFO] [1766687157.317433067] [rosbridge_websocket]: Client connected. 3 clients total.
+[rosbridge_websocket-3] [INFO] [1766687157.379751204] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766687157.382687771] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766687157.385187941] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Subscribed to /weed_status
+[rosbridge_websocket-3] [INFO] [1766687157.386523982] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766687157.387704956] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766687157.388877723] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Unsubscribed from /weed_status
+[boundary_manager-6] [INFO] [1766687157.390444522] [eco_boundary_manager]: Selected Farm: Sandfields Farm Ltd
+[rosbridge_websocket-3] [INFO] [1766687157.391223875] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Subscribed to /robot_pose
+[rosbridge_websocket-3] [INFO] [1766687157.392446596] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Subscribed to /mission_status
+[rosbridge_websocket-3] [INFO] [1766687157.393699540] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Subscribed to /weed_status
+[mission_planner-5] [INFO] [1766687170.141605588] [eco_mission_planner]: Received Mission Config: Sandfields Farm Ltd
+[boundary_manager-6] [INFO] [1766687170.141644435] [eco_boundary_manager]: Published new boundary with 7 points
+[mission_planner-5] [INFO] [1766687170.141830663] [eco_mission_planner]: Planner set to: boustrophedon
+[mission_planner-5] [INFO] [1766687170.142036699] [eco_mission_planner]: Mission configuration stored. Waiting for EXECUTE command.
+[boundary_manager-6] [INFO] [1766687170.154347175] [eco_boundary_manager]: Boundary set via service
+[rosbridge_websocket-3] [INFO] [1766687196.772434164] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Unsubscribed from /robot_pose
+[rosbridge_websocket-3] [INFO] [1766687196.773941492] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Unsubscribed from /mission_status
+[rosbridge_websocket-3] [INFO] [1766687196.775353513] [rosbridge_websocket]: [Client 41c06fa3-4558-4aa9-a624-bf8ffba8d2cd] Unsubscribed from /weed_status

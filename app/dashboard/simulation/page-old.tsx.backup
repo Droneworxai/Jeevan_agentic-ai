@@ -1,0 +1,1045 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Play, Square, Save, Map as MapIcon, Bot, Activity, RotateCw, Settings, Upload, Car, Pause, Trash2, Brain } from "lucide-react";
+import RosClient from "@/lib/ros/ros-client";
+import * as ROSLIB from "roslib";
+import { parseKMLToGeoJSON } from "@/lib/kml-parser";
+
+const MissionControlMap = dynamic(
+  () => import("@/components/map/mission-control-map"),
+  { ssr: false }
+);
+
+export default function SimulationPage() {
+  const [farmName, setFarmName] = useState("Sandfields Farm Ltd");
+  const [planner, setPlanner] = useState("boustrophedon");
+  const [boundary, setBoundary] = useState<any>(null);
+  const [robotPosition, setRobotPosition] = useState<[number, number] | null>(null);
+  const [isMissionRunning, setIsMissionRunning] = useState(false);
+  const [rosStatus, setRosStatus] = useState<"connected" | "disconnected" | "error" | "connecting">("disconnected");
+  const [missionStatus, setMissionStatus] = useState<any>(null);
+  const [weedStatus, setWeedStatus] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [showInstructions, setShowInstructions] = useState(true);
+
+  // AI Agent States
+  const [geminiApiKey, setGeminiApiKey] = useState("");
+  const [apiKeySet, setApiKeySet] = useState(false);
+  const [kmlFile, setKmlFile] = useState<File | null>(null);
+  const [kmlLoaded, setKmlLoaded] = useState(false);
+  const [isAINavigating, setIsAINavigating] = useState(false);
+  const [aiNavigationPath, setAiNavigationPath] = useState<[number, number][]>([]);
+  const [aiPathIndex, setAiPathIndex] = useState(0);
+
+  // Load saved Gemini API key
+  useEffect(() => {
+    const savedKey = localStorage.getItem("geminiApiKey");
+    if (savedKey) {
+      setGeminiApiKey(savedKey);
+      setApiKeySet(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    let interval: any;
+    if (isMissionRunning && startTime) {
+      interval = setInterval(() => {
+        setElapsedTime(Math.floor((Date.now() - startTime) / 1000));
+      }, 1000);
+    } else if (!isMissionRunning) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isMissionRunning, startTime]);
+
+  useEffect(() => {
+    const ros = RosClient.getInstance().connect();
+    setRosStatus("connecting");
+
+    const handleConnection = () => {
+      setRosStatus("connected");
+      setCompletedSteps((prev) => {
+        if (!prev.includes(0) || !prev.includes(1)) {
+          return [0, 1];
+        }
+        return prev;
+      });
+      setCurrentStep((prev) => prev < 2 ? 2 : prev);
+      // Publish selected farm on connect
+      const farmTopic = new ROSLIB.Topic({
+        ros: ros,
+        name: "/selected_farm",
+        messageType: "std_msgs/String"
+      });
+      farmTopic.publish({ data: farmName });
+    };
+
+    const handleError = () => setRosStatus("error");
+    const handleClose = () => setRosStatus("disconnected");
+
+    ros.on("connection", handleConnection);
+    ros.on("error", handleError);
+    ros.on("close", handleClose);
+
+    // Subscribe to robot pose (Architecture: /robot_pose)
+    const poseTopic = new ROSLIB.Topic({
+      ros: ros,
+      name: "/robot_pose",
+      messageType: "geometry_msgs/PoseStamped"
+    });
+
+    poseTopic.subscribe((message: any) => {
+      // Simple conversion from simulation meters to GPS (centered around Sandfields Farm)
+      const lat = 52.175 + (message.pose.position.y / 111111);
+      const lon = -1.755 + (message.pose.position.x / (111111 * Math.cos(52.175 * Math.PI / 180)));
+      setRobotPosition([lat, lon]);
+    });
+
+    // Subscribe to mission status (Architecture: /mission_status)
+    const statusTopic = new ROSLIB.Topic({
+      ros: ros,
+      name: "/mission_status",
+      messageType: "std_msgs/String"
+    });
+
+    statusTopic.subscribe((message: any) => {
+      try {
+        setMissionStatus(JSON.parse(message.data));
+      } catch (e) {
+        console.error("Error parsing mission status", e);
+      }
+    });
+
+    // Subscribe to weed status (Architecture: /weed_status)
+    const weedTopic = new ROSLIB.Topic({
+      ros: ros,
+      name: "/weed_status",
+      messageType: "std_msgs/String"
+    });
+
+    weedTopic.subscribe((message: any) => {
+      try {
+        setWeedStatus(JSON.parse(message.data));
+      } catch (e) {
+        console.error("Error parsing weed status", e);
+      }
+    });
+
+    return () => {
+      poseTopic.unsubscribe();
+      statusTopic.unsubscribe();
+      weedTopic.unsubscribe();
+      ros.off("connection", handleConnection);
+      ros.off("error", handleError);
+      ros.off("close", handleClose);
+    };
+  }, [farmName]);
+
+  const handleSetBoundary = () => {
+    if (!boundary) {
+      alert("Please draw a boundary on the map first.");
+      return;
+    }
+    const ros = RosClient.getInstance().getRos();
+    if (!ros || !ros.isConnected) {
+      alert("ROS is not connected.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    // First publish the boundary to the topic (as expected by boundary_manager)
+    const missionTopic = new ROSLIB.Topic({
+      ros: ros,
+      name: "/mission/start",
+      messageType: "std_msgs/String"
+    });
+
+    missionTopic.publish({
+      data: JSON.stringify({ farmName, boundary, planner })
+    });
+
+    // Then call the service to confirm
+    const setBoundarySrv = new ROSLIB.Service({
+      ros: ros,
+      name: "/set_boundary",
+      serviceType: "std_srvs/Trigger"
+    });
+
+    setBoundarySrv.callService({}, (result: any) => {
+      setIsLoading(false);
+      if (result.success) {
+        alert("Boundary set successfully!");
+        setCompletedSteps((prev) => prev.includes(2) ? prev : [...prev, 2]);
+        setCurrentStep(3);
+      } else {
+        alert("Failed to set boundary: " + result.message);
+      }
+    }, (error: any) => {
+      setIsLoading(false);
+      console.error("Service call failed:", error);
+      alert("Service call failed. Check ROS bridge.");
+    });
+  };
+
+  const handleLoadMission = () => {
+    const ros = RosClient.getInstance().getRos();
+    if (!ros || !ros.isConnected) {
+      alert("ROS is not connected.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const loadMissionSrv = new ROSLIB.Service({
+      ros: ros,
+      name: "/load_mission",
+      serviceType: "std_srvs/Trigger"
+    });
+
+    loadMissionSrv.callService({}, (result: any) => {
+      setIsLoading(false);
+      if (result.success) {
+        alert("Mission loaded successfully!");
+        setCompletedSteps((prev) => prev.includes(3) ? prev : [...prev, 3]);
+        setCurrentStep(4);
+      } else {
+        alert("Failed to load mission: " + result.message);
+      }
+    }, (error: any) => {
+      setIsLoading(false);
+      console.error("Service call failed:", error);
+      alert("Service call failed. Check ROS bridge.");
+    });
+  };
+
+  const handleStartMission = () => {
+    const ros = RosClient.getInstance().getRos();
+    if (!ros || !ros.isConnected) {
+      alert("ROS is not connected.");
+      return;
+    }
+
+    // In our current implementation, we use a topic to start/stop
+    const startTopic = new ROSLIB.Topic({
+      ros: ros,
+      name: "/mission/execute",
+      messageType: "std_msgs/Empty"
+    });
+    startTopic.publish({});
+    setIsMissionRunning(true);
+    setStartTime(Date.now());
+    setElapsedTime(0);
+    setCompletedSteps((prev) => prev.includes(4) ? prev : [...prev, 4]);
+    setCurrentStep(5);
+  };
+
+  const handleStopMission = () => {
+    const ros = RosClient.getInstance().getRos();
+    if (ros) {
+      const stopTopic = new ROSLIB.Topic({
+        ros: ros,
+        name: "/mission/stop",
+        messageType: "std_msgs/Empty"
+      });
+      stopTopic.publish({});
+    }
+    setIsMissionRunning(false);
+    setStartTime(null);
+  };
+
+  // AI Agent Functions
+  const handleSaveApiKey = () => {
+    if (geminiApiKey.trim()) {
+      localStorage.setItem("geminiApiKey", geminiApiKey);
+      setApiKeySet(true);
+      alert("Gemini API Key saved successfully!");
+    } else {
+      alert("Please enter a valid API key");
+    }
+  };
+
+  const handleKMLUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const kmlText = e.target?.result as string;
+        const geoJSON = parseKMLToGeoJSON(kmlText);
+        
+        // Extract waypoints from KML
+        const waypoints: [number, number][] = [];
+        if (geoJSON && geoJSON.features) {
+          geoJSON.features.forEach((feature: any) => {
+            if (feature.geometry.type === "Point") {
+              const [lng, lat] = feature.geometry.coordinates;
+              waypoints.push([lat, lng]);
+            } else if (feature.geometry.type === "LineString") {
+              feature.geometry.coordinates.forEach((coord: number[]) => {
+                waypoints.push([coord[1], coord[0]]);
+              });
+            } else if (feature.geometry.type === "Polygon") {
+              feature.geometry.coordinates[0].forEach((coord: number[]) => {
+                waypoints.push([coord[1], coord[0]]);
+              });
+            }
+          });
+        }
+
+        if (waypoints.length > 0) {
+          setAiNavigationPath(waypoints);
+          setKmlFile(file);
+          setKmlLoaded(true);
+          alert(`KML loaded successfully! Found ${waypoints.length} waypoints.`);
+        } else {
+          alert("No waypoints found in KML file.");
+        }
+      } catch (error) {
+        console.error("Error parsing KML:", error);
+        alert("Error loading KML file. Please check the file format.");
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleStartAINavigation = () => {
+    if (!apiKeySet) {
+      alert("Please set your Gemini API key first!");
+      return;
+    }
+    if (!kmlLoaded || aiNavigationPath.length === 0) {
+      alert("Please load a KML file with waypoints first!");
+      return;
+    }
+    if (rosStatus !== "connected") {
+      alert("ROS must be connected to start AI navigation!");
+      return;
+    }
+
+    setIsAINavigating(true);
+    setAiPathIndex(0);
+    alert(`Starting AI navigation through ${aiNavigationPath.length} waypoints!`);
+  };
+
+  const handlePauseAINavigation = () => {
+    setIsAINavigating(false);
+  };
+
+  const handleClearAIData = () => {
+    setKmlFile(null);
+    setKmlLoaded(false);
+    setIsAINavigating(false);
+    setAiNavigationPath([]);
+    setAiPathIndex(0);
+  };
+
+  // AI Navigation Animation
+  useEffect(() => {
+    if (!isAINavigating || aiNavigationPath.length === 0) return;
+
+    const interval = setInterval(() => {
+      setAiPathIndex((prev) => {
+        if (prev >= aiNavigationPath.length - 1) {
+          setIsAINavigating(false);
+          alert("AI navigation completed!");
+          return prev;
+        }
+
+        const nextIndex = prev + 1;
+        const nextWaypoint = aiNavigationPath[nextIndex];
+
+        // Publish waypoint to ROS
+        const ros = RosClient.getInstance().getRos();
+        if (ros && ros.isConnected) {
+          const waypointTopic = new ROSLIB.Topic({
+            ros: ros,
+            name: "/ai_waypoint",
+            messageType: "geometry_msgs/PoseStamped"
+          });
+
+          waypointTopic.publish({
+            header: { frame_id: "map" },
+            pose: {
+              position: {
+                x: (nextWaypoint[1] + 1.755) * 111111 * Math.cos(52.175 * Math.PI / 180),
+                y: (nextWaypoint[0] - 52.175) * 111111,
+                z: 0
+              },
+              orientation: { x: 0, y: 0, z: 0, w: 1 }
+            }
+          });
+        }
+
+        return nextIndex;
+      });
+    }, 2000); // Navigate to next waypoint every 2 seconds
+
+    return () => clearInterval(interval);
+  }, [isAINavigating, aiNavigationPath]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === 'Enter' && !isMissionRunning) {
+        handleStartMission();
+      } else if (e.ctrlKey && e.key === 'Escape' && isMissionRunning) {
+        handleStopMission();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMissionRunning]);
+
+  // Define steps array after all handlers are declared
+  const steps = [
+    {
+      title: "Start the Simulation",
+      description: "Run ./start.sh in your terminal to launch Gazebo, ROS 2 nodes, and Rosbridge WebSocket server.",
+      note: "Gazebo runs in headless mode (no GUI) for stability. Watch the green car icon on the map instead!",
+      action: null,
+      canComplete: () => true,
+    },
+    {
+      title: "Verify ROS Connection",
+      description: "Wait for the ROS bridge to connect. The status indicator should show 'Connected'.",
+      note: "This happens automatically once the simulation stack is running.",
+      action: null,
+      canComplete: () => rosStatus === "connected",
+    },
+    {
+      title: "Set Farm Boundary",
+      description: "Use the drawing tools on the map to create a polygon boundary, then click 'Set Boundary'.",
+      note: "Draw by clicking points on the map. Double-click to finish the polygon.",
+      action: handleSetBoundary,
+      canComplete: () => boundary !== null && rosStatus === "connected",
+    },
+    {
+      title: "Load Mission Plan",
+      description: "Click 'Load Mission' to generate the path plan using the Boustrophedon algorithm.",
+      note: "This calculates the optimal coverage path for the robot.",
+      action: handleLoadMission,
+      canComplete: () => rosStatus === "connected",
+    },
+    {
+      title: "Execute Mission",
+      description: "Click 'Execute Mission' or press Ctrl+Enter to start the robot!",
+      note: "Watch the green car icon move on the map in real-time.",
+      action: handleStartMission,
+      canComplete: () => rosStatus === "connected" && !isMissionRunning,
+    },
+    {
+      title: "Mission Complete",
+      description: "The robot is moving! Monitor telemetry and use 'Abort' (Ctrl+Esc) if needed.",
+      note: "The blue dashed line shows the robot's path history.",
+      action: null,
+      canComplete: () => isMissionRunning,
+    },
+  ];
+
+  const getStatusColor = () => {
+    switch (rosStatus) {
+      case "connected": return "bg-green-500";
+      case "connecting": return "bg-yellow-500";
+      case "error": return "bg-red-500";
+      default: return "bg-gray-500";
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-4">
+        <header className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Simulation Dashboard</h1>
+            <p className="text-gray-500 mt-1 text-sm md:text-base">EcoWeeder Autonomous Mission Control</p>
+          </div>
+          <div className="flex items-center gap-4 bg-white p-3 rounded-xl shadow-sm border">
+            <div className={`w-3 h-3 rounded-full ${rosStatus === "connected" ? "" : "animate-pulse"} ${getStatusColor()}`} />
+            <span className="text-xs md:text-sm font-bold text-gray-700 uppercase tracking-wider">
+              {rosStatus}
+            </span>
+            {rosStatus !== "connected" && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-8 px-2 text-xs"
+                onClick={() => RosClient.getInstance().connect()}
+              >
+                <RotateCw className="w-3 h-3 mr-1" /> Retry
+              </Button>
+            )}
+          </div>
+        </header>
+
+        {/* Compact Toggle Wizard */}
+        <div 
+          className="bg-white border border-gray-300 rounded-lg shadow-sm sticky top-4 z-50 cursor-pointer hover:border-blue-400 transition-colors"
+          onClick={() => setShowInstructions(!showInstructions)}
+        >
+          <div className="px-3 py-2 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Bot className="w-4 h-4 text-blue-600" />
+              <span className="text-xs font-bold text-gray-800">
+                Step {currentStep + 1}/{steps.length}: {steps[currentStep].title}
+              </span>
+              {/* Mini Progress Dots */}
+              <div className="flex gap-1 ml-2">
+                {steps.map((_, idx) => (
+                  <div 
+                    key={idx}
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      completedSteps.includes(idx) ? 'bg-green-500' : 
+                      currentStep === idx ? 'bg-blue-500' : 
+                      'bg-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+            <span className="text-xs text-gray-500">{showInstructions ? '▼' : '▶'}</span>
+          </div>
+          
+          {showInstructions && (
+            <div className="px-3 py-2 border-t border-gray-200 bg-gray-50">
+              <div className="text-xs space-y-2">
+                <p className="text-gray-700"><strong>{steps[currentStep].description}</strong></p>
+                <p className="text-gray-600 text-[11px]">💡 {steps[currentStep].note}</p>
+                
+                {/* Compact Action Buttons */}
+                <div className="flex items-center justify-between pt-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentStep(Math.max(0, currentStep - 1));
+                    }}
+                    disabled={currentStep === 0}
+                    className="h-7 text-xs px-2"
+                  >
+                    ← Prev
+                  </Button>
+
+                  <div className="flex gap-2">
+                    {steps[currentStep].action && (
+                      <Button
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          steps[currentStep].action!();
+                        }}
+                        disabled={!steps[currentStep].canComplete() || isLoading}
+                        className="h-7 text-xs px-2 bg-green-600 hover:bg-green-700"
+                      >
+                        {isLoading ? "..." : "Do It"}
+                      </Button>
+                    )}
+                    
+                    <Button
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (steps[currentStep].canComplete()) {
+                          if (!completedSteps.includes(currentStep)) {
+                            setCompletedSteps([...completedSteps, currentStep]);
+                          }
+                          setCurrentStep(Math.min(steps.length - 1, currentStep + 1));
+                        }
+                      }}
+                      disabled={!steps[currentStep].canComplete() || currentStep === steps.length - 1}
+                      className="h-7 text-xs px-2 bg-blue-600 hover:bg-blue-700"
+                    >
+                      {currentStep === steps.length - 1 ? "✓" : "Next →"}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Quick Status Bar (Always Visible) */}
+        <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] text-gray-600 bg-white py-1 px-3 rounded-md border border-gray-200 shadow-sm">
+          <span className={completedSteps.includes(0) ? "text-green-600 font-semibold" : ""}>
+            {completedSteps.includes(0) ? "✓" : "○"} Sim
+          </span>
+          <span className={completedSteps.includes(1) ? "text-green-600 font-semibold" : ""}>
+            {completedSteps.includes(1) ? "✓" : "○"} ROS
+          </span>
+          <span className={completedSteps.includes(2) ? "text-green-600 font-semibold" : ""}>
+            {completedSteps.includes(2) ? "✓" : "○"} Boundary
+          </span>
+          <span className={completedSteps.includes(3) ? "text-green-600 font-semibold" : ""}>
+            {completedSteps.includes(3) ? "✓" : "○"} Mission
+          </span>
+          <span className={completedSteps.includes(4) ? "text-green-600 font-semibold" : ""}>
+            {completedSteps.includes(4) ? "✓" : "○"} Execute
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
+          {/* Control Panel */}
+          <div className="lg:col-span-4 space-y-4 md:space-y-6">
+            <Card className="shadow-lg border-none bg-white/80 backdrop-blur">
+              <CardHeader className="border-b bg-gray-50/50">
+                <CardTitle className="text-xl flex items-center gap-3 text-gray-800">
+                  <Settings className="w-6 h-6 text-blue-600" /> Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 space-y-6">
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold text-gray-600">Active Farm</Label>
+                  <Select value={farmName} onValueChange={setFarmName}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Sandfields Farm Ltd">Sandfields Farm Ltd (UK)</SelectItem>
+                      <SelectItem value="Manor Farm">Manor Farm (Luddington)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-sm font-semibold text-gray-600">Mission Planner</Label>
+                  <Select value={planner} onValueChange={setPlanner}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="boustrophedon">Boustrophedon (Lawnmower)</SelectItem>
+                      <SelectItem value="spiral">Spiral Coverage</SelectItem>
+                      <SelectItem value="waypoints">Custom Waypoints</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Button 
+                    variant="outline" 
+                    className="h-12 gap-2" 
+                    onClick={handleSetBoundary}
+                    disabled={isLoading || rosStatus !== "connected"}
+                  >
+                    <MapIcon className="w-4 h-4" /> Set Boundary
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="h-12 gap-2" 
+                    onClick={handleLoadMission}
+                    disabled={isLoading || rosStatus !== "connected"}
+                  >
+                    <Bot className="w-4 h-4" /> Load Mission
+                  </Button>
+                </div>
+
+                {!isMissionRunning ? (
+                  <Button 
+                    className="w-full h-14 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-lg font-bold shadow-blue-200 shadow-lg gap-3 relative" 
+                    onClick={handleStartMission}
+                    disabled={isLoading || rosStatus !== "connected"}
+                  >
+                    <Play className="w-6 h-6 fill-current" /> 
+                    <div className="flex flex-col items-center">
+                      <span>EXECUTE MISSION</span>
+                      <span className="text-xs font-normal opacity-80">Ctrl+Enter</span>
+                    </div>
+                  </Button>
+                ) : (
+                  <Button 
+                    className="w-full h-14 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-lg font-bold shadow-red-200 shadow-lg gap-3 animate-pulse" 
+                    onClick={handleStopMission}
+                    disabled={isLoading || rosStatus !== "connected"}
+                  >
+                    <Square className="w-6 h-6 fill-current" /> 
+                    <div className="flex flex-col items-center">
+                      <span>ABORT MISSION</span>
+                      <span className="text-xs font-normal opacity-80">Ctrl+Esc</span>
+                    </div>
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-none">
+              <CardHeader className="border-b bg-gray-50/50">
+                <CardTitle className="text-xl flex items-center gap-3 text-gray-800">
+                  <Activity className="w-6 h-6 text-green-600" /> Live Telemetry
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 space-y-4">
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <span className="text-gray-500 font-medium">Mission State</span>
+                  <span className="font-bold text-blue-600 uppercase">{missionStatus?.state || "IDLE"}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <span className="text-gray-500 font-medium">Weeds Neutralized</span>
+                  <span className="font-bold text-green-600 text-xl">{missionStatus?.weeds_removed || 0}</span>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <div className="text-[10px] font-bold text-gray-400 uppercase">Time Elapsed</div>
+                    <div className="text-lg font-bold text-gray-700">
+                      {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}
+                    </div>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <div className="text-[10px] font-bold text-gray-400 uppercase">Area Covered</div>
+                    <div className="text-lg font-bold text-gray-700">
+                      {(missionStatus?.weeds_removed || 0) * 2.5} m²
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Robot Pose (GPS)</span>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="p-2 bg-gray-900 text-white rounded text-center">
+                      <div className="text-[10px] text-gray-400">LATITUDE</div>
+                      <div className="font-mono">{robotPosition ? robotPosition[0].toFixed(6) : "---"}</div>
+                    </div>
+                    <div className="p-2 bg-gray-900 text-white rounded text-center">
+                      <div className="text-[10px] text-gray-400">LONGITUDE</div>
+                      <div className="font-mono">{robotPosition ? robotPosition[1].toFixed(6) : "---"}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t">
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">System Health</span>
+                  <div className="mt-2 space-y-2">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-500">Gazebo Sim</span>
+                      <span className={rosStatus === "connected" ? "text-green-600 font-bold" : "text-red-600 font-bold"}>
+                        {rosStatus === "connected" ? "RUNNING" : "OFFLINE"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-500">Mission Planner</span>
+                      <span className={missionStatus ? "text-green-600 font-bold" : "text-gray-400 font-bold"}>
+                        {missionStatus ? "ACTIVE" : "WAITING"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* AI Agent Control Card */}
+            <Card className="shadow-lg border-none mt-4 md:mt-6">
+              <CardHeader className="border-b bg-gradient-to-r from-purple-50 to-indigo-50">
+                <CardTitle className="text-xl flex items-center gap-3 text-purple-900">
+                  <Brain className="w-6 h-6 text-purple-600" /> AI Agent Navigation
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 space-y-4">
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="gemini-key" className="text-sm font-semibold text-gray-600">Gemini API Key</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="gemini-key"
+                        type="password"
+                        placeholder="Enter your Gemini API key"
+                        value={geminiApiKey}
+                        onChange={(e) => setGeminiApiKey(e.target.value)}
+                        disabled={apiKeySet}
+                        className="h-10"
+                      />
+                      {!apiKeySet ? (
+                        <Button onClick={handleSaveApiKey} className="h-10 bg-purple-600 hover:bg-purple-700">
+                          <Settings className="h-4 w-4" />
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            setApiKeySet(false);
+                            setGeminiApiKey("");
+                            localStorage.removeItem("geminiApiKey");
+                          }}
+                          variant="outline"
+                          className="h-10"
+                        >
+                          Change
+                        </Button>
+                      )}
+                    </div>
+                    {apiKeySet && (
+                      <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                        ✓ API Key configured
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <Label htmlFor="kml-upload" className="text-sm font-semibold text-gray-600">Upload KML File</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="kml-upload"
+                        type="file"
+                        accept=".kml"
+                        onChange={handleKMLUpload}
+                        className="h-10"
+                      />
+                      {kmlLoaded && (
+                        <Button
+                          onClick={handleClearAIData}
+                          variant="outline"
+                          className="h-10"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                    {kmlLoaded && (
+                      <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                        ✓ {aiNavigationPath.length} waypoints loaded
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {!isAINavigating ? (
+                    <Button
+                      onClick={handleStartAINavigation}
+                      disabled={!apiKeySet || !kmlLoaded || rosStatus !== "connected"}
+                      className="h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 gap-2"
+                    >
+                      <Play className="h-4 w-4" />
+                      Start AI Nav
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={handlePauseAINavigation}
+                      className="h-11 bg-orange-600 hover:bg-orange-700 gap-2"
+                    >
+                      <Pause className="h-4 w-4" />
+                      Pause
+                    </Button>
+                  )}
+                  
+                  <Button
+                    onClick={handleClearAIData}
+                    variant="outline"
+                    className="h-11 gap-2"
+                    disabled={!kmlLoaded && !isAINavigating}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    Clear All
+                  </Button>
+                </div>
+
+                {/* AI Status */}
+                <div className="border-t pt-4 space-y-2">
+                  <h4 className="font-semibold text-sm text-gray-700">AI Navigation Status</h4>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="flex justify-between p-2 bg-gray-50 rounded">
+                      <span className="text-gray-600">API Key:</span>
+                      <span className={apiKeySet ? "text-green-600 font-semibold" : "text-gray-400"}>
+                        {apiKeySet ? "✓ Set" : "✗ Not Set"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between p-2 bg-gray-50 rounded">
+                      <span className="text-gray-600">KML:</span>
+                      <span className={kmlLoaded ? "text-green-600 font-semibold" : "text-gray-400"}>
+                        {kmlLoaded ? "✓ Loaded" : "✗ No File"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between p-2 bg-gray-50 rounded">
+                      <span className="text-gray-600">Navigation:</span>
+                      <span className={isAINavigating ? "text-blue-600 font-semibold" : "text-gray-400"}>
+                        {isAINavigating ? "▶ Active" : "⏸ Idle"}
+                      </span>
+                    </div>
+                    <div className="flex justify-between p-2 bg-gray-50 rounded">
+                      <span className="text-gray-600">Waypoints:</span>
+                      <span className="text-gray-700 font-semibold">
+                        {aiNavigationPath.length}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Progress Bar */}
+                {isAINavigating && aiNavigationPath.length > 0 && (
+                  <div className="border-t pt-4">
+                    <h4 className="font-semibold text-sm text-gray-700 mb-2">Navigation Progress</h4>
+                    <div className="bg-gray-200 rounded-full h-3 mb-2 overflow-hidden">
+                      <div
+                        className="bg-gradient-to-r from-purple-600 to-indigo-600 h-3 rounded-full transition-all duration-300"
+                        style={{
+                          width: `${(aiPathIndex / (aiNavigationPath.length - 1)) * 100}%`,
+                        }}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-600">
+                      Waypoint {aiPathIndex + 1} of {aiNavigationPath.length}
+                    </p>
+                  </div>
+                )}
+
+                {/* AI Info */}
+                <div className="bg-purple-50 border-l-4 border-purple-400 p-3 rounded">
+                  <p className="text-xs text-purple-900">
+                    <strong>ℹ️ AI Navigation:</strong> Upload a KML file with waypoints, set your Gemini API key, and let the AI guide the robot through the path autonomously.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Map View */}
+          <div className="lg:col-span-8">
+            <Card className="shadow-2xl border-none overflow-hidden h-[750px]">
+              <CardContent className="p-0 h-full relative">
+                <MissionControlMap 
+                  onBoundaryChange={setBoundary} 
+                  robotPosition={robotPosition}
+                />
+                <div className="absolute bottom-6 left-6 z-[1000] bg-white/90 backdrop-blur p-4 rounded-2xl shadow-2xl border border-white/20">
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase">System Status</span>
+                      <span className="text-sm font-bold text-gray-800">Autonomous Mode Active</span>
+                    </div>
+                    <div className="h-8 w-[1px] bg-gray-200" />
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase">Signal Strength</span>
+                      <span className="text-sm font-bold text-green-600">98% (Excellent)</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Instructions Card */}
+        <Card className="mt-6 shadow-lg border-l-4 border-l-blue-600">
+          <CardHeader className="bg-blue-50/50">
+            <CardTitle className="text-lg flex items-center gap-2 text-blue-900">
+              <Settings className="w-5 h-5" /> Mission Instructions
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6 space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                  1
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Start the Simulation Stack</h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Open a terminal and run: <code className="bg-gray-100 px-2 py-1 rounded text-xs font-mono">./start.sh</code> from the project root.
+                    This will launch Gazebo (headless mode), ROS 2 nodes, and the Rosbridge WebSocket server.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                  2
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Verify ROS Connection</h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Check that the status indicator at the top shows <span className="text-green-600 font-semibold">"Connected"</span>.
+                    If it shows "Disconnected", wait a few seconds for the system to initialize.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                  3
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Set Farm Boundary</h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Click on the map to draw a polygon around the area you want the robot to cover.
+                    Then click <span className="font-semibold">"Set Boundary"</span> to send it to the robot.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                  4
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Load Mission Plan</h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Click <span className="font-semibold">"Load Mission"</span> to generate the path plan using the selected algorithm (Boustrophedon pattern).
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+                  5
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Execute Mission</h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Click <span className="font-semibold">"Execute Mission"</span> to start the robot. Watch it move on the map in real-time!
+                    Use <kbd className="px-2 py-1 bg-gray-200 rounded text-xs font-mono">Ctrl+Enter</kbd> as a shortcut.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold">
+                  6
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Abort Mission (If Needed)</h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Click <span className="font-semibold">"Abort Mission"</span> to stop the robot immediately.
+                    Use <kbd className="px-2 py-1 bg-gray-200 rounded text-xs font-mono">Ctrl+Esc</kbd> as a shortcut.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-400 rounded mb-4">
+              <h4 className="font-semibold text-blue-900 flex items-center gap-2">
+                <span className="text-xl">ℹ️</span> About Gazebo Simulation
+              </h4>
+              <p className="mt-2 text-sm text-blue-800">
+                Gazebo runs in <span className="font-semibold">headless mode</span> (no GUI) for stability and performance. 
+                You won't see a 3D simulation window - instead, watch the <span className="font-semibold text-green-600">green car icon</span> move on the map above in real-time! 
+                The robot's position is synchronized from Gazebo physics to this web interface via ROS 2 topics.
+              </p>
+            </div>
+
+            <div className="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded">
+              <h4 className="font-semibold text-yellow-900 flex items-center gap-2">
+                <span className="text-xl">⚠️</span> Troubleshooting
+              </h4>
+              <ul className="mt-2 space-y-1 text-sm text-yellow-800">
+                <li>• <strong>No Robot Movement?</strong> Follow all 6 steps in order: Start Sim → Wait for Connection → Set Boundary → Load Mission → Execute</li>
+                <li>• <strong>ROS Disconnected?</strong> Ensure the simulation stack is running with <code className="bg-yellow-100 px-1 rounded">./start.sh</code></li>
+                <li>• <strong>Robot Not Visible?</strong> Look for the green car icon on the map - it appears when position data is received</li>
+                <li>• Check <code className="bg-yellow-100 px-1 rounded">simulation.log</code> in the project root for any ROS errors</li>
+                <li>• MongoDB connection errors are non-critical (only needed for farm persistence)</li>
+                <li>• The robot path (blue dashed line) will appear after the mission starts</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
