@@ -29,5 +29,17 @@ if (Test-Path package-lock.json) {
 Write-Host "Generating Prisma client..."
 npx prisma generate
 
+# Check for ROS (Windows ROS is usually via specific env vars or commands)
+if (Get-Command ros2 -ErrorAction SilentlyContinue) {
+    $startRos = Read-Host "ROS 2 detected. Would you like to start the ROS Bridge? (y/n)"
+    if ($startRos -eq "y") {
+        Write-Host "Starting ROS Bridge in background..."
+        Start-Process -NoNewWindow -FilePath "ros2" -ArgumentList "launch rosbridge_server rosbridge_websocket_launch.xml"
+        
+        Write-Host "Starting Mission Planner node..."
+        Start-Process -NoNewWindow -FilePath "python" -ArgumentList "simulation/scripts/mission_planner.py"
+    }
+}
+
 Write-Host "Starting development server..."
 npm run dev

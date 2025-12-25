@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Download, MapPin, Bot, Info, LogOut, Settings } from "lucide-react";
+import { Download, MapPin, Bot, Info, LogOut, Settings, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +29,12 @@ const navigationItems = [
     href: "/dashboard/ai-agent",
     icon: Bot,
     description: "AI-powered navigation",
+  },
+  {
+    title: "Mission Control",
+    href: "/dashboard/mission-control",
+    icon: Activity,
+    description: "Farm mission planning",
   },
   {
     title: "About Us",
